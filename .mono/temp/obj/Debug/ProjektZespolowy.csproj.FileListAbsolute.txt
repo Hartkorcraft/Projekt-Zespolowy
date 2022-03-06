@@ -1,0 +1,9 @@
+D:\DokumentyITD\coding_stuff\PrototypProjektuZespolowego\.mono\temp\bin\Debug\ProjektZespolowy.dll
+D:\DokumentyITD\coding_stuff\PrototypProjektuZespolowego\.mono\temp\bin\Debug\ProjektZespolowy.pdb
+D:\DokumentyITD\coding_stuff\PrototypProjektuZespolowego\.mono\temp\obj\Debug\ProjektZespolowy.csproj.AssemblyReference.cache
+D:\DokumentyITD\coding_stuff\PrototypProjektuZespolowego\.mono\temp\obj\Debug\ProjektZespolowy.GeneratedMSBuildEditorConfig.editorconfig
+D:\DokumentyITD\coding_stuff\PrototypProjektuZespolowego\.mono\temp\obj\Debug\ProjektZespolowy.AssemblyInfoInputs.cache
+D:\DokumentyITD\coding_stuff\PrototypProjektuZespolowego\.mono\temp\obj\Debug\ProjektZespolowy.AssemblyInfo.cs
+D:\DokumentyITD\coding_stuff\PrototypProjektuZespolowego\.mono\temp\obj\Debug\ProjektZespolowy.csproj.CoreCompileInputs.cache
+D:\DokumentyITD\coding_stuff\PrototypProjektuZespolowego\.mono\temp\obj\Debug\ProjektZespolowy.dll
+D:\DokumentyITD\coding_stuff\PrototypProjektuZespolowego\.mono\temp\obj\Debug\ProjektZespolowy.pdb
