@@ -4,10 +4,12 @@ using System;
 public class Arm : Position2D
 {
     IHandAble? itemInHand;
+    public Entity CameraParent { get; private set; } = null!;
 
     public override void _EnterTree()
     {
         itemInHand = GetChild<IHandAble>(0);
+        CameraParent = (Entity)GetParent();
     }
 
     public override void _Process(float delta)

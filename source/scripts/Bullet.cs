@@ -3,21 +3,13 @@ using System;
 
 public class Bullet : Area2D
 {
-    //public static AudioStreamPlayer2D? pistolBulletHit;
-
     [Export] float speed = 300f;
     [Export] float maxDistance = 500f;
     [Export] float spread = 0.2f;
 
     float traveledDistance = 0;
-    Shape2D shape;
     Vector2 fireDirection = Vector2.Right;
     float currentSpread = 0;
-
-    public override void _EnterTree()
-    {
-        //pistolBulletHit ??= Bullet.BulletPoolNode?.GetNode<AudioStreamPlayer2D>("PistolBulletHitSound");
-    }
 
     public override void _PhysicsProcess(float delta)
     {
@@ -31,12 +23,21 @@ public class Bullet : Area2D
         {
             RemoveBullet();
         }
-
     }
 
+    public void FireBullet(Vector2 dir)
+    {
+        fireDirection = dir;
+        traveledDistance = 0;
+        currentSpread = Utils.RandomFloat(-spread, spread);
+        Visible = true;
+        SetProcess(true);
+    }
+
+    // Sygnał któy odpala się kiedy pocisk coś uderzy
     void _OnCollided(Node node)
     {
-        GD.Print("hit");
+        //GD.Print("hit");
         RemoveBullet();
     }
 
@@ -49,15 +50,6 @@ public class Bullet : Area2D
     {
         Hide();
         SetProcess(false);
-    }
-
-    public void Fire(Vector2 dir)
-    {
-        fireDirection = dir;
-        traveledDistance = 0;
-        currentSpread = Utils.RandomFloat(-spread, spread);
-        Visible = true;
-        SetProcess(true);
     }
 
 }

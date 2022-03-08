@@ -1,4 +1,4 @@
-
+// Ścieżki do klawiszy aby mieć wszystko uporządkowane
 public static class InputActions
 {
     public const string MoveRightActionInput = "ui_right";

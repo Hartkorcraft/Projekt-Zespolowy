@@ -23,18 +23,24 @@ public class Pistol : Sprite, IHandAble
         Fire(arm);
     }
 
-    void Fire(Position2D armPivot)
+    void Fire(Arm arm)
     {
         var bullet = bulletPool.GetBulletFromPool();
         if (bullet is null) return;
 
         bullet.Position = muzzlePivot.GlobalPosition;
-        bullet.Rotation = armPivot.Rotation;
+        bullet.Rotation = arm.Rotation;
 
-        var rotatedArmDir = new Vector2(1, 0).Rotated(armPivot.Rotation);
+        var rotatedArmDir = new Vector2(1, 0).Rotated(arm.Rotation);
 
-        bullet.Fire(rotatedArmDir);
+        bullet.FireBullet(rotatedArmDir);
         gunShotSound?.Play();
+        var player = arm.CameraParent as Player;
+
+        if (player is not null)
+        {
+            player.ShakeCamera.AddShake(0.5f, 0.1f);
+        }
 
         bulletPool.ReturnBulletToPool(bullet);
     }

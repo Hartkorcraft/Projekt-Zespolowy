@@ -3,6 +3,8 @@ using System;
 
 public class Player : Entity
 {
+    public ShakeCamera ShakeCamera { get; private set; } = null!;
+  
     Movement movement = new Movement();
     AnimationPlayer animationPlayer = null!;
     Arm arm = null!;
@@ -12,6 +14,7 @@ public class Player : Entity
         base._EnterTree();
         animationPlayer = GetNode<AnimationPlayer>("AnimationPlayer") ?? throw new Exception("Animation player is null");
         arm = GetNode<Arm>("Arm");
+        ShakeCamera = GetNode<ShakeCamera>("Camera2D");
     }
 
     public override void _Process(float delta)
