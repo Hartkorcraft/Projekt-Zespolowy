@@ -1,11 +1,13 @@
 using Godot;
 using System;
 
-public class Player : Entity
+public class Player : Entity, IMovement
 {
     public ShakeCamera ShakeCamera { get; private set; } = null!;
-  
-    Movement movement = new Movement();
+
+    [Export] float bulletTimeSpeed = 0.2f;
+    [Export] float bulletTimeDecay = 0.2f;
+
     AnimationPlayer animationPlayer = null!;
     Arm arm = null!;
 
@@ -19,12 +21,19 @@ public class Player : Entity
 
     public override void _Process(float delta)
     {
-        TryToUseItemInHand();
+        var usedItem = TryToUseItemInHand();
+        BulletTime(usedItem);
+    }
+
+    private void BulletTime(bool usedItem = false)
+    {
+        if (Movement.Motion == Vector2.Zero && usedItem is false) Engine.TimeScale = bulletTimeSpeed;
+        else Engine.TimeScale = Mathf.Min(Engine.TimeScale + bulletTimeDecay, 1.0f);
     }
 
     public override void _PhysicsProcess(float delta)
     {
-        movement.Update(this, GetInputAxis(), delta, animationPlayer);
+        Movement.Update(this, GetInputAxis(), delta, animationPlayer);
     }
 
     Vector2 GetInputAxis()
@@ -35,11 +44,12 @@ public class Player : Entity
         return axis.Normalized();
     }
 
-    void TryToUseItemInHand()
+    bool TryToUseItemInHand()
     {
         var tryingToShoot = Input.IsActionPressed(InputActions.ShootAction);
         if (tryingToShoot)
-            arm.TryToUseItemInHand();
+            return arm.TryToUseItemInHand();
+        return false;
     }
 
 }

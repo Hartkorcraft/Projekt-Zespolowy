@@ -3,27 +3,27 @@ using System;
 
 public class Movement
 {
-    [Export] float maxSpeed = 250f;
+    [Export] float maxSpeed = 200f;
     [Export] float acceleration = 500;
     [Export] float frictionMod = 3;
     [Export] float accelerationMod = 10;
 
-    Vector2 motion = Vector2.Zero;
+    public Vector2 Motion {get;set;} = Vector2.Zero;
     Vector2 motionDir = Vector2.Zero;
 
     public void Update(Entity entity, Vector2 moveDir, float delta, AnimationPlayer? animationPlayer = null)
     {
         var axis = moveDir;
 
-        motion = ApplyFriction(motion, acceleration * frictionMod * delta);
-        motion = ApplyMovement(motion, axis * acceleration * accelerationMod * delta);
+        Motion = ApplyFriction(Motion, acceleration * frictionMod * delta);
+        Motion = ApplyMovement(Motion, axis * acceleration * accelerationMod * delta);
 
         if (animationPlayer is not null)
-            AnimateWalking(animationPlayer, entity, motion);
+            AnimateWalking(animationPlayer, entity, Motion);
 
-        if (motion != Vector2.Zero)
-            motionDir = motion.Normalized();
-        motion = entity.MoveAndSlide(motion);
+        if (Motion != Vector2.Zero)
+            motionDir = Motion.Normalized();
+        Motion = entity.MoveAndSlide(Motion);
     }
 
     Vector2 ApplyFriction(Vector2 motion, float frictionAmount)

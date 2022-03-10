@@ -9,6 +9,9 @@ public class Pistol : Sprite, IHandAble
     PackedScene bulletScene = null!;
     BulletPool bulletPool = null!;
 
+    int bulletBurstAmmount = 20;
+    int bulletsShootInBurst = 0;
+
     public override void _EnterTree()
     {
         muzzlePivot = GetNode<Position2D>("Muzzle");
@@ -18,15 +21,25 @@ public class Pistol : Sprite, IHandAble
         gunShotSound = GetNode<AudioStreamPlayer>("ShootSound");
     }
 
-    public void Use(Arm arm)
+    public override void _Process(float delta)
     {
-        Fire(arm);
+        if (Input.IsActionPressed(InputActions.ShootAction) is false)
+        {
+            bulletsShootInBurst = 0;
+        }
     }
 
-    void Fire(Arm arm)
+    public bool Use(Arm arm)
     {
+        return TryToFire(arm);
+    }
+
+    bool TryToFire(Arm arm)
+    {
+        if (bulletsShootInBurst >= bulletBurstAmmount) return false;
+
         var bullet = bulletPool.GetBulletFromPool();
-        if (bullet is null) return;
+        if (bullet is null) return false;
 
         bullet.Position = muzzlePivot.GlobalPosition;
         bullet.Rotation = arm.Rotation;
@@ -35,7 +48,8 @@ public class Pistol : Sprite, IHandAble
 
         bullet.FireBullet(rotatedArmDir);
         gunShotSound?.Play();
-        var player = arm.CameraParent as Player;
+        bulletsShootInBurst++;
+        var player = arm.ArmParent as Player;
 
         if (player is not null)
         {
@@ -43,5 +57,6 @@ public class Pistol : Sprite, IHandAble
         }
 
         bulletPool.ReturnBulletToPool(bullet);
+        return true;
     }
 }

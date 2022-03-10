@@ -10,12 +10,13 @@ public class Bullet : Area2D
     float traveledDistance = 0;
     Vector2 fireDirection = Vector2.Right;
     float currentSpread = 0;
+    Vector2 motion = Vector2.Zero;
 
     public override void _PhysicsProcess(float delta)
     {
         var distance = speed * delta;
 
-        var motion = (fireDirection * distance).Rotated(currentSpread);
+        motion = (fireDirection * distance).Rotated(currentSpread);
         Position += motion;
         traveledDistance += distance;
 
@@ -35,8 +36,20 @@ public class Bullet : Area2D
     }
 
     // Sygnał któy odpala się kiedy pocisk coś uderzy
-    void _OnCollided(Node node)
+    void _OnCollided(int body_id, Node node, int body_shape, int local_shape)
     {
+        if (this.IsProcessing() is false) return;
+
+        //IHealth? hit = null;
+
+        var asMap = node as Map;
+        if (asMap is not null)
+        {
+            var offset = new Vector2(1f, 0).Rotated(currentSpread + this.Rotation);
+
+            //GD.Print("Map pos: ", (node as TileMap).WorldToMap(Position + offset), "WorldPos: ", this.Position, " offset ", offset);
+
+        }
         //GD.Print("hit");
         RemoveBullet();
     }

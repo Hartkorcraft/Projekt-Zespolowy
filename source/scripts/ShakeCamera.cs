@@ -10,11 +10,22 @@ public class ShakeCamera : Camera2D
 
     float shakeAmount = 0f;
     float shakePower = 2; // exponent between [2 , 3]
+
+    OpenSimplexNoise shakeNoise = new OpenSimplexNoise();
+    float noiseY = 0;
+
     Node2D target = null!;
 
     public override void _EnterTree()
     {
         target = GetParent<Node2D>();
+    }
+
+    public override void _Ready()
+    {
+        shakeNoise.Seed = Utils.rng.Next();
+        shakeNoise.Period = 4;
+        shakeNoise.Octaves = 2;
     }
 
     public override void _Process(float delta)
@@ -33,9 +44,10 @@ public class ShakeCamera : Camera2D
 
     void Shake()
     {
+        noiseY++;
         var ammount = Mathf.Pow(shakeAmount, shakePower);
-        this.Rotation = MaxRotation * ammount * Utils.RandomFloat(-1, 1);
-        this.Offset = new Vector2(Utils.RandomFloat(-1, 1), Utils.RandomFloat(-1, 1)) * maxOffset * ammount;
+        this.Rotation = MaxRotation * ammount * shakeNoise.GetNoise2d(shakeNoise.Seed, noiseY);
+        this.Offset = new Vector2(shakeNoise.GetNoise2d(shakeNoise.Seed * 2, noiseY), shakeNoise.GetNoise2d(shakeNoise.Seed * 3, noiseY)) * maxOffset * ammount;
     }
 
 
