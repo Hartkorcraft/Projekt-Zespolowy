@@ -12,6 +12,9 @@ public class Bullet : Area2D
     float currentSpread = 0;
     Vector2 motion = Vector2.Zero;
 
+    int damage = 1;
+
+
     public override void _PhysicsProcess(float delta)
     {
         var distance = speed * delta;
@@ -46,9 +49,10 @@ public class Bullet : Area2D
         if (asMap is not null)
         {
             var offset = new Vector2(1f, 0).Rotated(currentSpread + this.Rotation);
-
-            //GD.Print("Map pos: ", (node as TileMap).WorldToMap(Position + offset), "WorldPos: ", this.Position, " offset ", offset);
-
+            var worldPos = asMap.WorldToMap(Position + offset);
+            var mapPos = ((int)worldPos.x, (int)worldPos.y);
+            var tileAsIHealth = Map.GetTile(mapPos) as IHealthSystem;
+            tileAsIHealth?.HealthSystem.Damage(damage);
         }
         //GD.Print("hit");
         RemoveBullet();
