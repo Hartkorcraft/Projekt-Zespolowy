@@ -1,7 +1,0 @@
-<Project Sdk="Godot.NET.Sdk/3.3.0">
-  <PropertyGroup>
-    <TargetFramework>net472</TargetFramework>
-    <LangVersion>9.0</LangVersion>
-		<Nullable>enable</Nullable>
-  </PropertyGroup>
-</Project>
