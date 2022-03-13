@@ -25,7 +25,7 @@ public class Arm : Position2D
     void PointArm()
     {
         this.LookAt(GetGlobalMousePosition());
-        Scale = this.RotationDegrees % 360 is > -275 and < -90 ? Scale = new Vector2(1, -1) : Vector2.One;
+        //Scale = this.RotationDegrees % 360 is > -275 and < -90 ? Scale = new Vector2(1, -1) : Vector2.One;
     }
 
 }

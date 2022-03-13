@@ -29,7 +29,6 @@ public class Map : TileMap
                 {
                     var newTile = new Tile(x, y, TileType.Path);
                     SetCell(this, new DestructableTile(x, y, TileType.Wall, new HealthSystem(10, 10, () => SetCell(this, newTile))));
-                    GD.Print(newTile.Pos);
                 }
                 else SetCell(this, new Tile(x, y, TileType.Grass));
 
@@ -41,14 +40,14 @@ public class Map : TileMap
 
     public static void SetCell(Map map, Tile newTile)
     {
-        if (OnMap(newTile.Pos) is false) throw new Exception("Out of bounds");
+        if (OnMap(newTile.Pos) is false) return;// throw new Exception("Out of bounds " + newTile.Pos);
         mapTiles[newTile.Pos.x, newTile.Pos.y] = newTile;
         map.SetCell(newTile.Pos.x, newTile.Pos.y, (int)newTile.TileType);
     }
 
-    public static Tile GetTile((int x, int y) pos)
+    public static Tile? GetTile((int x, int y) pos)
     {
-        if (OnMap(pos) is false) throw new Exception("Out of bounds");
+        if (OnMap(pos) is false) return null; // throw new Exception("Out of bounds " + pos);
         return mapTiles[pos.x, pos.y];
     }
 

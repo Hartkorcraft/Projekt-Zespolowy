@@ -9,7 +9,7 @@ public class Pistol : Sprite, IHandAble
     PackedScene bulletScene = null!;
     BulletPool bulletPool = null!;
 
-    int bulletBurstAmmount = 20;
+    int bulletBurstAmmount = 200;
     int bulletsShootInBurst = 0;
 
     public override void _EnterTree()
@@ -23,6 +23,8 @@ public class Pistol : Sprite, IHandAble
 
     public override void _Process(float delta)
     {
+        this.FlipV = Mathf.Abs(this.GlobalRotationDegrees) >= 90;
+
         if (Input.IsActionPressed(InputActions.ShootAction) is false)
         {
             bulletsShootInBurst = 0;

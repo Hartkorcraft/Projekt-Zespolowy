@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://source/scripts/Pistol.cs" type="Script" id=1]
-[ext_resource path="res://Imported/Weapons/pistolSprite.png" type="Texture" id=2]
+[ext_resource path="res://Imported/Weapons/Weapons/pistolSprite.png" type="Texture" id=2]
 [ext_resource path="res://Imported/Sounds/PewPistolSound.wav" type="AudioStream" id=3]
 
 [node name="Pistol" type="Sprite"]
