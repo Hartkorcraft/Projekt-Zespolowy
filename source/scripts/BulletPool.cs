@@ -18,7 +18,6 @@ public class BulletPool : Node2D
         {
             var bullet = (Bullet)bulletScene.Instance();
             bullet.Position = new Vector2(-500, -500);
-            bullet.SetProcess(false);
             bullet.Hide();
             AddChild(bullet);
             bulletPool.Enqueue(bullet);

@@ -8,7 +8,6 @@ public class Player : Entity, IMovement
     [Export] float bulletTimeSpeed = 0.2f;
     [Export] float bulletTimeDecay = 0.2f;
 
-    AnimationPlayer animationPlayer = null!;
     Arm arm = null!;
 
     public override void _EnterTree()
@@ -21,7 +20,7 @@ public class Player : Entity, IMovement
 
     public override void _Process(float delta)
     {
-        var usedItem = TryToUseItemInHand();
+        var usedItem = TryToUseItemInHand(delta);
         BulletTime(usedItem);
     }
 
@@ -31,12 +30,7 @@ public class Player : Entity, IMovement
         else Engine.TimeScale = Mathf.Min(Engine.TimeScale + bulletTimeDecay, 1.0f);
     }
 
-    public override void _PhysicsProcess(float delta)
-    {
-        Movement.Update(this, GetInputAxis(), delta, animationPlayer);
-    }
-
-    Vector2 GetInputAxis()
+    protected override Vector2 GetMovementAxis()
     {
         var axis = Vector2.Zero;
         axis.x = (Input.IsActionPressed(InputActions.MoveRightActionInput) ? 1 : 0) - (Input.IsActionPressed(InputActions.MoveLeftActionInput) ? 1 : 0);
@@ -44,11 +38,11 @@ public class Player : Entity, IMovement
         return axis.Normalized();
     }
 
-    bool TryToUseItemInHand()
+    bool TryToUseItemInHand(float delta)
     {
         var tryingToShoot = Input.IsActionPressed(InputActions.ShootAction);
         if (tryingToShoot)
-            return arm.TryToUseItemInHand();
+            return arm.TryToUseItemInHand(delta);
         return false;
     }
 

@@ -5,9 +5,9 @@ public class Map : TileMap
 {
     public const int TILE_SIZE = 8;
 
-    [Export] bool initMap = true;
-    [Export] static int sizeX = 50;
-    [Export] static int sizeY = 50;
+    bool initMap = true;
+    static int sizeX = 50;
+    static int sizeY = 50;
 
     static Tile[,] mapTiles = null!;
 

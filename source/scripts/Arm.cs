@@ -17,9 +17,9 @@ public class Arm : Position2D
         PointArm();
     }
 
-    public bool TryToUseItemInHand()
+    public bool TryToUseItemInHand(float delta)
     {
-        return itemInHand?.Use(this) ?? false;
+        return itemInHand?.Use(this, delta) ?? false;
     }
 
     void PointArm()

@@ -10,23 +10,36 @@ public class Bullet : Area2D
     float traveledDistance = 0;
     Vector2 fireDirection = Vector2.Right;
     float currentSpread = 0;
+
     Vector2 motion = Vector2.Zero;
+    Vector2 newPos = Vector2.Zero;
 
     int damage = 1;
-
+    bool moved = false;
+    bool active = false;
 
     public override void _PhysicsProcess(float delta)
     {
-        var distance = speed * delta;
+        if (active is false) return;
 
+
+        var distance = speed * delta;
         motion = (fireDirection * distance).Rotated(currentSpread);
-        Position += motion;
         traveledDistance += distance;
+        newPos = Position + motion;
+
+        // Zabezpieczenie żeby kolizja się wykryła podczas 1 klatki
+        if (moved is false)
+        {
+            Show();
+            moved = true;
+            return;
+        }
+
+        Position = newPos;
 
         if (traveledDistance > maxDistance)
-        {
             RemoveBullet();
-        }
     }
 
     public void FireBullet(Vector2 dir)
@@ -34,14 +47,15 @@ public class Bullet : Area2D
         fireDirection = dir;
         traveledDistance = 0;
         currentSpread = Utils.RandomFloat(-spread, spread);
-        Visible = true;
-        SetProcess(true);
+        moved = false;
+        Hide();
+        active = true;
     }
 
     // Sygnał któy odpala się kiedy pocisk coś uderzy
     void _OnCollided(int body_id, Node node, int body_shape, int local_shape)
     {
-        if (this.IsProcessing() is false) return;
+        if (this.active is false) return;
 
         //IHealth? hit = null;
 
@@ -54,7 +68,6 @@ public class Bullet : Area2D
             var tileAsIHealth = Map.GetTile(mapPos) as IHealthSystem;
             tileAsIHealth?.HealthSystem.Damage(damage);
         }
-        //GD.Print("hit");
         RemoveBullet();
     }
 
@@ -66,7 +79,7 @@ public class Bullet : Area2D
     void RemoveBullet()
     {
         Hide();
-        SetProcess(false);
+        active = false;
     }
 
 }

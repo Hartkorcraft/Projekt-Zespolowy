@@ -8,8 +8,17 @@ public class Movement
     [Export] float frictionMod = 3;
     [Export] float accelerationMod = 10;
 
-    public Vector2 Motion {get;set;} = Vector2.Zero;
+    public Vector2 Motion { get; set; } = Vector2.Zero;
     Vector2 motionDir = Vector2.Zero;
+
+    public Movement() { }
+    public Movement(float maxSpeed = 200, float acceleration = 500, float frictionMod = 3, float accelerationMod = 10)
+    {
+        this.maxSpeed = maxSpeed;
+        this.acceleration = acceleration;
+        this.frictionMod = 3;
+        this.accelerationMod = 10;
+    }
 
     public void Update(Entity entity, Vector2 moveDir, float delta, AnimationPlayer? animationPlayer = null)
     {

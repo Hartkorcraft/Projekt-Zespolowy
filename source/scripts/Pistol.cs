@@ -31,19 +31,19 @@ public class Pistol : Sprite, IHandAble
         }
     }
 
-    public bool Use(Arm arm)
+    public bool Use(Arm arm, float delta)
     {
-        return TryToFire(arm);
+        return TryToFire(arm, delta);
     }
 
-    bool TryToFire(Arm arm)
+    bool TryToFire(Arm arm, float delta)
     {
         if (bulletsShootInBurst >= bulletBurstAmmount) return false;
 
         var bullet = bulletPool.GetBulletFromPool();
         if (bullet is null) return false;
 
-        bullet.Position = muzzlePivot.GlobalPosition;
+        bullet.Position = muzzlePivot.GlobalPosition + arm.ArmParent.Movement.Motion * delta;
         bullet.Rotation = arm.Rotation;
 
         var rotatedArmDir = new Vector2(1, 0).Rotated(arm.Rotation);

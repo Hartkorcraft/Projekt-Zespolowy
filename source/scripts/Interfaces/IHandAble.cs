@@ -1,5 +1,5 @@
 
 public interface IHandAble
 {
-    bool Use(Arm arm);
+    bool Use(Arm arm, float delta);
 }
