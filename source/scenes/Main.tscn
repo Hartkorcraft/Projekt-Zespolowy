@@ -1,14 +1,17 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://source/tileset.tres" type="TileSet" id=1]
 [ext_resource path="res://source/scenes/Player.tscn" type="PackedScene" id=2]
 [ext_resource path="res://source/scripts/ShakeCamera.cs" type="Script" id=3]
 [ext_resource path="res://source/scripts/Map/Map.cs" type="Script" id=4]
 [ext_resource path="res://source/scenes/Enemy.tscn" type="PackedScene" id=5]
+[ext_resource path="res://source/scripts/Main.cs" type="Script" id=6]
 
 [node name="Main" type="Node2D"]
+script = ExtResource( 6 )
 
 [node name="Map" type="TileMap" parent="."]
+z_index = -2
 tile_set = ExtResource( 1 )
 cell_size = Vector2( 8, 8 )
 collision_layer = 2
@@ -27,5 +30,16 @@ decay = 2.0
 maxOffset = Vector2( 2, 3 )
 MaxRotation = 0.1
 
+[node name="Enemy2" parent="." instance=ExtResource( 5 )]
+position = Vector2( 33.8981, 64.3938 )
+
 [node name="Enemy" parent="." instance=ExtResource( 5 )]
 position = Vector2( 64.8897, 32.5942 )
+
+[node name="Enemy3" parent="." instance=ExtResource( 5 )]
+position = Vector2( 60.9144, 55.9181 )
+
+[node name="Enemy4" parent="." instance=ExtResource( 5 )]
+position = Vector2( 33.1058, 35.2429 )
+
+[node name="ParticlePool" type="Node2D" parent="."]

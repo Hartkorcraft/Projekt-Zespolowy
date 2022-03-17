@@ -4,7 +4,6 @@ using System;
 public class Map : TileMap
 {
     public const int TILE_SIZE = 8;
-
     bool initMap = true;
     static int sizeX = 50;
     static int sizeY = 50;
@@ -28,9 +27,9 @@ public class Map : TileMap
                 if (x == (int)size.x / 2)
                 {
                     var newTile = new Tile(x, y, TileType.Path);
-                    SetCell(this, new DestructableTile(x, y, TileType.Wall, new HealthSystem(10, 10, () => SetCell(this, newTile))));
+                    SetCell(new DestructableTile(x, y, TileType.Wall, new HealthSystem_Tile(10, 10, () => new Vector2(x, y) * TILE_SIZE, this, newTile)));
                 }
-                else SetCell(this, new Tile(x, y, TileType.Grass));
+                else SetCell(new Tile(x, y, TileType.Grass));
 
             }
     }
@@ -38,11 +37,11 @@ public class Map : TileMap
     public static bool OnMap((int x, int y) pos)
         => pos.x >= 0 && pos.x < sizeX && pos.y >= 0 && pos.y < sizeY;
 
-    public static void SetCell(Map map, Tile newTile)
+    public void SetCell(Tile newTile)
     {
         if (OnMap(newTile.Pos) is false) return;// throw new Exception("Out of bounds " + newTile.Pos);
         mapTiles[newTile.Pos.x, newTile.Pos.y] = newTile;
-        map.SetCell(newTile.Pos.x, newTile.Pos.y, (int)newTile.TileType);
+        this.SetCell(newTile.Pos.x, newTile.Pos.y, (int)newTile.TileType);
     }
 
     public static Tile? GetTile((int x, int y) pos)

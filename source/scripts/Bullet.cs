@@ -7,6 +7,8 @@ public class Bullet : Area2D
     [Export] float maxDistance = 500f;
     [Export] float spread = 0.2f;
 
+    public int Damage { get; private set; } = 1;
+
     float traveledDistance = 0;
     Vector2 fireDirection = Vector2.Right;
     float currentSpread = 0;
@@ -14,7 +16,6 @@ public class Bullet : Area2D
     Vector2 motion = Vector2.Zero;
     Vector2 newPos = Vector2.Zero;
 
-    int damage = 1;
     bool moved = false;
     bool active = false;
 
@@ -66,8 +67,14 @@ public class Bullet : Area2D
             var worldPos = asMap.WorldToMap(Position + offset);
             var mapPos = ((int)worldPos.x, (int)worldPos.y);
             var tileAsIHealth = Map.GetTile(mapPos) as IHealthSystem;
-            tileAsIHealth?.HealthSystem.Damage(damage);
+            tileAsIHealth?.HealthSystem.Damage(this);
         }
+        else
+        {
+            (node as IHealthSystem)?.HealthSystem.Damage(this);
+        }
+
+
         RemoveBullet();
     }
 
