@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public class Map : TileMap
+public class Map : Node2D
 {
     public const int TILE_SIZE = 8;
     bool initMap = true;
@@ -10,14 +10,26 @@ public class Map : TileMap
 
     static Tile[,] mapTiles = null!;
 
+    Tiles tilesFloor = null!;
+    Tiles tilesWalls = null!;
+
+    public Vector2 WorldToMap(Vector2 pos)
+        => tilesFloor.WorldToMap(pos);
+
     public override void _EnterTree()
     {
+        tilesFloor = GetNode<Tiles>("Tiles_Floor");
+        tilesWalls = GetNode<Tiles>("Tiles_Walls");
+        tilesFloor.Map = this;
+        tilesWalls.Map = this;
+
         if (initMap) InitMap((sizeX, sizeY));
     }
 
     public void InitMap((int x, int y) size)
     {
-        this.Clear();
+        tilesFloor.Clear();
+        tilesWalls.Clear();
 
         mapTiles = new Tile[size.x, size.y];
 
@@ -26,11 +38,10 @@ public class Map : TileMap
             {
                 if (x == (int)size.x / 2)
                 {
-                    var newTile = new Tile(x, y, TileType.Path);
-                    SetCell(new DestructableTile(x, y, TileType.Wall, new HealthSystem_Tile(10, 10, () => new Vector2(x, y) * TILE_SIZE, this, newTile)));
+                    var newTile = new Tile(x, y, TileType.Path, TileType.Empty);
+                    SetCell(new DestructableTile(x, y, TileType.Path, TileType.Wall, new HealthSystem_Tile(10, 10, () => new Vector2(x, y) * TILE_SIZE, this, newTile)));
                 }
-                else SetCell(new Tile(x, y, TileType.Grass));
-
+                else SetCell(new Tile(x, y, TileType.Grass, TileType.Empty));
             }
     }
 
@@ -39,9 +50,11 @@ public class Map : TileMap
 
     public void SetCell(Tile newTile)
     {
-        if (OnMap(newTile.Pos) is false) return;// throw new Exception("Out of bounds " + newTile.Pos);
+        if (OnMap(newTile.Pos) is false) throw new Exception("Out of bounds " + newTile.Pos);
         mapTiles[newTile.Pos.x, newTile.Pos.y] = newTile;
-        this.SetCell(newTile.Pos.x, newTile.Pos.y, (int)newTile.TileType);
+
+        tilesFloor.SetCell(newTile.Pos.x, newTile.Pos.y, (int)newTile.TileType_Floor);
+        tilesWalls.SetCell(newTile.Pos.x, newTile.Pos.y, (int)newTile.TileType_Wall);
     }
 
     public static Tile? GetTile((int x, int y) pos)
@@ -49,8 +62,4 @@ public class Map : TileMap
         if (OnMap(pos) is false) return null; // throw new Exception("Out of bounds " + pos);
         return mapTiles[pos.x, pos.y];
     }
-
-    public static (int x, int y) ToMapPos(Vector2 pos)
-        => ((int)pos.x / TILE_SIZE, (int)pos.y / TILE_SIZE);
-
 }

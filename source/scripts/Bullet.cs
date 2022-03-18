@@ -60,11 +60,11 @@ public class Bullet : Area2D
 
         //IHealth? hit = null;
 
-        var asMap = node as Map;
-        if (asMap is not null)
+        var asTiles = node as Tiles;
+        if (asTiles is not null)
         {
             var offset = new Vector2(1f, 0).Rotated(currentSpread + this.Rotation);
-            var worldPos = asMap.WorldToMap(Position + offset);
+            var worldPos = asTiles.WorldToMap(Position + offset);
             var mapPos = ((int)worldPos.x, (int)worldPos.y);
             var tileAsIHealth = Map.GetTile(mapPos) as IHealthSystem;
             tileAsIHealth?.HealthSystem.Damage(this);

@@ -53,6 +53,9 @@ public static class Utils
     public static Tuple<T1, T2> ToTuple<T1, T2>(this KeyValuePair<T1, T2> source)
         => Tuple.Create(source.Key, source.Value);
 
+    public static Vector2 ToVec2(this (int, int) tuple)
+        => new Vector2(tuple.Item1, tuple.Item2);
+
     private static readonly Dictionary<Dir, (int x, int y)> dictionary = new Dictionary<Dir, (int x, int y)>()
         {
             {   Dir.Up,  (0,1)                   },
