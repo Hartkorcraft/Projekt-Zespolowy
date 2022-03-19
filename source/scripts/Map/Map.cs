@@ -5,14 +5,18 @@ public class Map : Node2D
 {
     public const int TILE_SIZE = 8;
     bool initMap = true;
+
     static int sizeX = 50;
     static int sizeY = 50;
 
+    // komórki mapy
     static Tile[,] mapTiles = null!;
 
+    // tilemapy 
     Tiles tilesFloor = null!;
     Tiles tilesWalls = null!;
 
+    // cordy świata na mampy
     public Vector2 WorldToMap(Vector2 pos)
         => tilesFloor.WorldToMap(pos);
 
@@ -26,6 +30,7 @@ public class Map : Node2D
         if (initMap) InitMap((sizeX, sizeY));
     }
 
+    // Generacja mapy
     public void InitMap((int x, int y) size)
     {
         tilesFloor.Clear();

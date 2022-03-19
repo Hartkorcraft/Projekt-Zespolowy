@@ -18,6 +18,10 @@ config/icon="res://icon.png"
 
 BulletPool="*res://source/scenes/BulletPool.tscn"
 
+[debug]
+
+settings/fps/force_fps=60
+
 [editor_plugins]
 
 enabled=PoolStringArray( "res://addons/ch.fischspiele.tilesethelper/plugin.cfg" )

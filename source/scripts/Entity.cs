@@ -7,7 +7,7 @@ public abstract class Entity : KinematicBody2D, IMovement, IHealthSystem
     public Movement Movement { get; protected set; } = new Movement();
     public HealthSystem HealthSystem { get; protected set; } = null!;
 
-    protected AnimationPlayer animationPlayer = null!;
+    protected AnimationPlayer? animationPlayer;
 
     public override void _Ready()
     {

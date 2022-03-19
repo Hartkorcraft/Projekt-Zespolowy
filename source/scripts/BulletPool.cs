@@ -6,7 +6,7 @@ using System.Linq;
 // Pula pocisków aby nie tworzyć masowo nowych obiektów
 public class BulletPool : Node2D
 {
-    int poolSize = 100;
+    int poolSize = 500;
     Queue<Bullet> bulletPool = new Queue<Bullet>();
     PackedScene bulletScene = null!;
 

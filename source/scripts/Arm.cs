@@ -12,7 +12,7 @@ public class Arm : Position2D
         ArmParent = (Entity)GetParent();
     }
 
-    public override void _Process(float delta)
+    public override void _PhysicsProcess(float delta)
     {
         PointArm();
     }

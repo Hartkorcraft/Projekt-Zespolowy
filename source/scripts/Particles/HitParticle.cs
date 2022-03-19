@@ -1,6 +1,7 @@
 using Godot;
 using System;
 
+// Cżąstki przy uderzeniu w coś
 public abstract class HitParticle : CPUParticles2D
 {
     void _on_Timer_timeout()

@@ -5,12 +5,12 @@ public abstract class HealthSystem
 {
     public int Health { get; private set; }
     public int MaxHealth { get; private set; }
-    bool dead = false;
-    protected PackedScene? hitParticleScene;
-    protected Func<Vector2> getOriginPos;
+    bool dead = false; // żeby nie móc umrzeć gdy się nie żyje 
+    protected PackedScene? hitParticleScene; // cząstki po oberaniu np krew
+    protected Func<Vector2> getOriginPos; // żeby zdobyć środek dla cząstek
     //Action onDeath;
 
-    public bool Damage(Bullet bullet) //TODO attack instead of bullet
+    public bool Damage(Bullet bullet) //TODO atak zamiast pocisku 
     {
         Health -= bullet.Damage;
         OnHit(bullet);

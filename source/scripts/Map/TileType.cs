@@ -1,4 +1,4 @@
-// Definiowane komórki mapy 
+// Definiowane komórki mapy, liczby odnoszą się do indeksów w tilemapie
 public enum TileType
 {
     Empty = 0,

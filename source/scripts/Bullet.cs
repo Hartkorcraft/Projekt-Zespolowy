@@ -11,7 +11,7 @@ public class Bullet : Area2D
 
     float traveledDistance = 0;
     Vector2 fireDirection = Vector2.Right;
-    float currentSpread = 0;
+    float currentSpread = 0; // rozrzut broni aka kąt  
 
     Vector2 motion = Vector2.Zero;
     Vector2 newPos = Vector2.Zero;
@@ -22,7 +22,6 @@ public class Bullet : Area2D
     public override void _PhysicsProcess(float delta)
     {
         if (active is false) return;
-
 
         var distance = speed * delta;
         motion = (fireDirection * distance).Rotated(currentSpread);
@@ -74,8 +73,7 @@ public class Bullet : Area2D
             (node as IHealthSystem)?.HealthSystem.Damage(this);
         }
 
-
-        RemoveBullet();
+        BulletImpact();
     }
 
     void BulletImpact()
