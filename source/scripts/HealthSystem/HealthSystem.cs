@@ -60,7 +60,6 @@ public abstract class HealthSystem
             Main.ParticlePool.AddChild(hitParticle);
             hitParticle.GlobalPosition = getOriginPos();
             hitParticle.GlobalRotation = attack.AttackRotation;
-            GD.Print(hitParticle.GlobalPosition);
         }
     }
 

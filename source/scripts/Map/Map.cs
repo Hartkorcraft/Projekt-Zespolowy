@@ -4,6 +4,8 @@ using System;
 public class Map : Node2D
 {
     public const int TILE_SIZE = 8;
+    public static readonly Vector2 HALF_TILE = new Vector2(4, 4);
+
     public PathFinding PathFinding { get; private set; } = null!;
     bool initMap = true;
 
@@ -15,12 +17,16 @@ public class Map : Node2D
     // tilemapy 
     Tiles tilesFloor = null!;
     Tiles tilesWalls = null!;
+    TileSet tileSet = null!;
 
     PackedScene hitWallParticle = null!; //Todo przenieść do jednej klasy wszystkie cząstki
 
     // cordy świata na mampy
     public Vector2 WorldToMap(Vector2 pos)
         => tilesFloor.WorldToMap(pos);
+
+    public (int x, int y) ToMapPos(Vector2 pos)
+        => ((int)WorldToMap(pos).x, ((int)WorldToMap(pos).y));
 
     public override void _EnterTree()
     {
@@ -30,12 +36,15 @@ public class Map : Node2D
         tilesFloor.Map = this;
         tilesWalls.Map = this;
 
+        tileSet = (TileSet)ResourceLoader.Load(Imports.TILESET_PATH);
+
         PathFinding = new PathFinding((sizeX, sizeY));
 
-        hitWallParticle = (PackedScene)ResourceLoader.Load(Imports.wallParticlePath);
+        hitWallParticle = (PackedScene)ResourceLoader.Load(Imports.WALL_PARTICLE_PATH);
 
 
         if (initMap) InitMap((sizeX, sizeY));
+
     }
 
     // Generacja mapy
@@ -61,6 +70,9 @@ public class Map : Node2D
 
     public static bool OnMap((int x, int y) pos)
         => pos.x >= 0 && pos.x < sizeX && pos.y >= 0 && pos.y < sizeY;
+
+    public bool CheckIfTileHasCollision(TileType tileType)
+        => tileSet.TileGetShapeCount((int)tileType) > 0;
 
     public void SetCell(Tile newTile)
     {

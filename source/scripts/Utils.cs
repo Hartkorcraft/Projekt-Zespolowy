@@ -53,6 +53,9 @@ public static class Utils
     public static Tuple<T1, T2> ToTuple<T1, T2>(this KeyValuePair<T1, T2> source)
         => Tuple.Create(source.Key, source.Value);
 
+    public static (int x, int y) ToTuple(this Vector2 source)
+        => (((int)source.x), ((int)source.y));
+
     public static Vector2 ToVec2(this (int, int) tuple)
         => new Vector2(tuple.Item1, tuple.Item2);
 

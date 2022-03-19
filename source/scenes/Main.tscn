@@ -43,9 +43,6 @@ decay = 2.0
 maxOffset = Vector2( 2, 3 )
 MaxRotation = 0.1
 
-[node name="Enemy2" parent="." instance=ExtResource( 5 )]
-position = Vector2( 33.8981, 64.3938 )
-
 [node name="Enemy" parent="." instance=ExtResource( 5 )]
 position = Vector2( 64.8897, 32.5942 )
 
@@ -56,3 +53,48 @@ position = Vector2( 60.9144, 55.9181 )
 position = Vector2( 33.1058, 35.2429 )
 
 [node name="ParticlePool" type="Node2D" parent="."]
+
+[node name="Enemy2" parent="." instance=ExtResource( 5 )]
+position = Vector2( 45.8624, 182.434 )
+
+[node name="Enemy5" parent="." instance=ExtResource( 5 )]
+position = Vector2( 41.8871, 205.758 )
+
+[node name="Enemy6" parent="." instance=ExtResource( 5 )]
+position = Vector2( 14.0785, 185.083 )
+
+[node name="Enemy7" parent="." instance=ExtResource( 5 )]
+position = Vector2( 198.081, 69.4596 )
+
+[node name="Enemy8" parent="." instance=ExtResource( 5 )]
+position = Vector2( 194.106, 92.7835 )
+
+[node name="Enemy9" parent="." instance=ExtResource( 5 )]
+position = Vector2( 166.297, 72.1083 )
+
+[node name="Enemy10" parent="." instance=ExtResource( 5 )]
+position = Vector2( 51.1167, 107.816 )
+
+[node name="Enemy11" parent="." instance=ExtResource( 5 )]
+position = Vector2( 47.1414, 131.14 )
+
+[node name="Enemy12" parent="." instance=ExtResource( 5 )]
+position = Vector2( 19.3328, 110.465 )
+
+[node name="Enemy13" parent="." instance=ExtResource( 5 )]
+position = Vector2( 32.0893, 257.656 )
+
+[node name="Enemy14" parent="." instance=ExtResource( 5 )]
+position = Vector2( 28.114, 280.98 )
+
+[node name="Enemy15" parent="." instance=ExtResource( 5 )]
+position = Vector2( 0.305447, 260.305 )
+
+[node name="Enemy16" parent="." instance=ExtResource( 5 )]
+position = Vector2( 184.308, 144.682 )
+
+[node name="Enemy17" parent="." instance=ExtResource( 5 )]
+position = Vector2( 180.333, 168.005 )
+
+[node name="Enemy18" parent="." instance=ExtResource( 5 )]
+position = Vector2( 152.524, 147.33 )

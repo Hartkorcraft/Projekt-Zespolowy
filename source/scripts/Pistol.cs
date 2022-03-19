@@ -15,7 +15,7 @@ public class Pistol : Sprite, IHandAble
     public override void _EnterTree()
     {
         muzzlePivot = GetNode<Position2D>("Muzzle");
-        bulletScene = (PackedScene)ResourceLoader.Load(Imports.bulletScenePath) ?? throw new Exception("Path not found");
+        bulletScene = (PackedScene)ResourceLoader.Load(Imports.BULLET_SCENE_PATH) ?? throw new Exception("Path not found");
         bulletPool = GetNode<BulletPool>("/root/BulletPool");
 
         gunShotSound = GetNode<AudioStreamPlayer>("ShootSound");

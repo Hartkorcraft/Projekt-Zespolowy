@@ -12,7 +12,7 @@ public class BulletPool : Node2D
 
     public override void _EnterTree()
     {
-        bulletScene = (PackedScene)ResourceLoader.Load(Imports.bulletScenePath) ?? throw new Exception("Path not found");
+        bulletScene = (PackedScene)ResourceLoader.Load(Imports.BULLET_SCENE_PATH) ?? throw new Exception("Path not found");
 
         for (int i = 0; i < poolSize; i++)
         {
