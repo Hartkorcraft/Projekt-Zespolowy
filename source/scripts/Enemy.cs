@@ -3,6 +3,9 @@ using System;
 
 public class Enemy : Entity
 {
+    public NpcPathfinding NpcPathfinding { get; private set; } = new NpcPathfinding();
+
+
     public override void _Ready()
     {
         Movement = new Movement(maxSpeed: 50);

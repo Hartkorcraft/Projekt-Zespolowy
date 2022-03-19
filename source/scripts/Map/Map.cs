@@ -4,6 +4,7 @@ using System;
 public class Map : Node2D
 {
     public const int TILE_SIZE = 8;
+    public PathFinding PathFinding { get; private set; } = null!;
     bool initMap = true;
 
     static int sizeX = 50;
@@ -11,7 +12,6 @@ public class Map : Node2D
 
     // komórki mapy
     static Tile[,] mapTiles = null!;
-
     // tilemapy 
     Tiles tilesFloor = null!;
     Tiles tilesWalls = null!;
@@ -26,8 +26,11 @@ public class Map : Node2D
     {
         tilesFloor = GetNode<Tiles>("Tiles_Floor");
         tilesWalls = GetNode<Tiles>("Tiles_Walls");
+
         tilesFloor.Map = this;
         tilesWalls.Map = this;
+
+        PathFinding = new PathFinding((sizeX, sizeY));
 
         hitWallParticle = (PackedScene)ResourceLoader.Load(Imports.wallParticlePath);
 
