@@ -12,7 +12,7 @@ public abstract class Entity : KinematicBody2D, IMovement, IHealthSystem
     public override void _Ready()
     {
         Sprite = GetNode<Sprite>("Sprite") ?? throw new Exception("Sprite is null");
-        var bloodParticleScene = (PackedScene)ResourceLoader.Load(Imports.bloodParticlePath);
+        var bloodParticleScene = (PackedScene)ResourceLoader.Load(Imports.bloodParticleDeathPath);
         HealthSystem = new HealtSystem_Entity(5, 5, () => GlobalPosition, this, bloodParticleScene);
     }
 

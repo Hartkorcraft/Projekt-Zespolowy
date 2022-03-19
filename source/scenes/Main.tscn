@@ -21,6 +21,7 @@ cell_size = Vector2( 8, 8 )
 collision_layer = 2
 collision_mask = 13
 format = 1
+tile_data = PoolIntArray( 0, 2, 0, 1, 2, 0, 2, 2, 0, 65536, 2, 0, 65537, 2, 0, 65538, 2, 0, 131072, 2, 0, 131073, 2, 0, 131074, 2, 0, 196608, 2, 0, 196609, 2, 0, 196610, 2, 0, 262144, 2, 0, 262145, 2, 0, 262146, 2, 0 )
 script = ExtResource( 7 )
 
 [node name="Tiles_Walls" type="TileMap" parent="Map"]

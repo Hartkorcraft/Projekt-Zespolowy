@@ -1,9 +1,9 @@
 [gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://Imported/Particles/bloodParticle.png" type="Texture" id=1]
-[ext_resource path="res://source/scripts/Particles/BloodParticle.cs" type="Script" id=2]
+[ext_resource path="res://source/scripts/Particles/HitParticle.cs" type="Script" id=2]
 
-[node name="BloodParticle" type="CPUParticles2D"]
+[node name="BloodParticleDeath" type="CPUParticles2D"]
 z_index = -1
 amount = 32
 lifetime = 0.25

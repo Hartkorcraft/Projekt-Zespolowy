@@ -16,6 +16,8 @@ public class Map : Node2D
     Tiles tilesFloor = null!;
     Tiles tilesWalls = null!;
 
+    PackedScene hitWallParticle = null!; //Todo przenieść do jednej klasy wszystkie cząstki
+
     // cordy świata na mampy
     public Vector2 WorldToMap(Vector2 pos)
         => tilesFloor.WorldToMap(pos);
@@ -26,6 +28,9 @@ public class Map : Node2D
         tilesWalls = GetNode<Tiles>("Tiles_Walls");
         tilesFloor.Map = this;
         tilesWalls.Map = this;
+
+        hitWallParticle = (PackedScene)ResourceLoader.Load(Imports.wallParticlePath);
+
 
         if (initMap) InitMap((sizeX, sizeY));
     }
@@ -44,7 +49,8 @@ public class Map : Node2D
                 if (x == (int)size.x / 2)
                 {
                     var newTile = new Tile(x, y, TileType.Path, TileType.Empty);
-                    SetCell(new DestructableTile(x, y, TileType.Path, TileType.Wall, new HealthSystem_Tile(10, 10, () => new Vector2(x, y) * TILE_SIZE, this, newTile)));
+                    var (_x, _y) = (x, y);
+                    SetCell(new DestructableTile(x, y, TileType.Path, TileType.Wall, new HealthSystem_Tile(10, 10, () => new Vector2(_x, _y) * TILE_SIZE, this, newTile, hitWallParticle)));
                 }
                 else SetCell(new Tile(x, y, TileType.Grass, TileType.Empty));
             }

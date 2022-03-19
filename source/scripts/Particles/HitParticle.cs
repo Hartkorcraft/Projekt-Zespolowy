@@ -2,8 +2,10 @@ using Godot;
 using System;
 
 // Cżąstki przy uderzeniu w coś
-public abstract class HitParticle : CPUParticles2D
+public class HitParticle : CPUParticles2D
 {
+    public bool DestroyAfter { get; set; } = false;
+
     void _on_Timer_timeout()
     {
         this.SetProcess(false);
@@ -12,5 +14,8 @@ public abstract class HitParticle : CPUParticles2D
         this.SetProcessInternal(false);
         this.SetProcessUnhandledInput(false);
         this.SetProcessUnhandledKeyInput(false);
+
+        if (DestroyAfter) //TODO particle pool?
+            QueueFree();
     }
 }

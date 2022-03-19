@@ -1,13 +1,15 @@
 using Godot;
 using System;
 
-public class Bullet : Area2D
+public class Bullet : Area2D, IAttack
 {
     [Export] float speed = 300f;
     [Export] float maxDistance = 500f;
     [Export] float spread = 0.2f;
 
+
     public int Damage { get; private set; } = 1;
+    public float AttackRotation => GlobalRotation;
 
     float traveledDistance = 0;
     Vector2 fireDirection = Vector2.Right;
