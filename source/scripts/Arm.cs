@@ -18,7 +18,7 @@ public class Arm : Position2D
         var asNode = itemInHand as Node2D;
         if (asNode is not null) asNode.Visible = false;
 
-        itemInHandIndex = ++itemInHandIndex >= GetChildCount() ? 0 : ++itemInHandIndex;
+        itemInHandIndex = itemInHandIndex + 1 >= GetChildCount() ? 0 : itemInHandIndex + 1;
         itemInHand = GetChild<IHandAble>(itemInHandIndex);
 
         asNode = itemInHand as Node2D;
