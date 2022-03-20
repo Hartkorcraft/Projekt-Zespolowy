@@ -3,24 +3,29 @@ using System.Collections.Generic;
 using System.Linq;
 using Godot;
 
-public class NpcPathfinding
+public class NpcMind
 {
+    float viewRange = 100;
+
     Map map;
     public List<PathCell> Path = new List<PathCell>();
 
-    int delayTime = 0; // Aby nie wyszukiwać ścieżki co klatkę
-    int delayRate = 5;
     Vector2? playerLastSeenPos = null;
 
     public Vector2 GetDirToPlayer(Entity npc, Player player)
     {
         //raycast aby sprawdzić czy widzi
         var spaceState = npc.GetWorld2d().DirectSpaceState;
-        var result = spaceState.IntersectRay(npc.GlobalPosition, player.GlobalPosition, collisionLayer: 0b11);
+        var result = spaceState.IntersectRay(
+            from: npc.GlobalPosition,
+            to: player.GlobalPosition,
+            exclude: new Godot.Collections.Array { npc },
+            collisionLayer: 0b11);
 
         var hit = result["collider"];
+        var distanceToPlayer = npc.GlobalPosition.DistanceTo(player.GlobalPosition);
 
-        if (hit is Player)
+        if (hit is Player && distanceToPlayer <= viewRange)
         {
             playerLastSeenPos = player.GlobalPosition;
 
@@ -70,7 +75,7 @@ public class NpcPathfinding
         return blocking;
     }
 
-    public NpcPathfinding(Map map)
+    public NpcMind(Map map)
     {
         this.map = map;
     }

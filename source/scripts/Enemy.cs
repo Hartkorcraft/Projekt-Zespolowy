@@ -3,7 +3,7 @@ using System;
 
 public class Enemy : Entity
 {
-    public NpcPathfinding NpcPathfinding { get; private set; } = null!;
+    public NpcMind NpcPathfinding { get; private set; } = null!;
     Player player = null!;
 
     public override void _Ready()
@@ -17,7 +17,7 @@ public class Enemy : Entity
         player = GetTree().Root.GetNode("Main").GetNode<Player>(ScenesPaths.PLAYER_PATH);
 
         var map = GetTree().Root.GetNode("Main").GetNode<Map>(ScenesPaths.MAP_PATH);
-        NpcPathfinding = new NpcPathfinding(map);
+        NpcPathfinding = new NpcMind(map);
     }
 
     public override void _Process(float delta)
