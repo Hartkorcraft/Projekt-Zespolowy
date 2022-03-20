@@ -12,7 +12,15 @@ public class NpcMind
 
     Vector2? playerLastSeenPos = null;
 
-    public Vector2 GetDirToPlayer(Entity npc, Player player)
+    public void Update(Entity npc, Player player, Movement npcMovement, float delta)
+    {
+
+    }
+
+    public Vector2 GetMovementDir(Entity npc, Player player)
+        => GetDirToPlayer(npc, player);
+
+    Vector2 GetDirToPlayer(Entity npc, Player player)
     {
         //raycast aby sprawdzić czy widzi
         var spaceState = npc.GetWorld2d().DirectSpaceState;

@@ -18,6 +18,9 @@ angular_velocity_random = 1.0
 angle_random = 1.0
 scale_amount = 0.1
 scale_amount_random = 0.43
+color = Color( 1, 1, 1, 0.478431 )
+hue_variation = -0.03
+hue_variation_random = 0.04
 script = ExtResource( 2 )
 
 [node name="Timer" type="Timer" parent="."]

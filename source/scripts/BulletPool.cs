@@ -17,9 +17,9 @@ public class BulletPool : Node2D
         for (int i = 0; i < poolSize; i++)
         {
             var bullet = (Bullet)bulletScene.Instance();
+            AddChild(bullet);
             bullet.Position = new Vector2(-500, -500);
             bullet.Hide();
-            AddChild(bullet);
             bulletPool.Enqueue(bullet);
         }
     }

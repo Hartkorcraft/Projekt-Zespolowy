@@ -18,6 +18,7 @@ angular_velocity_random = 1.0
 angle_random = 1.0
 scale_amount = 0.1
 scale_amount_random = 0.28
+color = Color( 1, 1, 1, 0.764706 )
 hue_variation = -0.02
 hue_variation_random = 1.0
 script = ExtResource( 2 )

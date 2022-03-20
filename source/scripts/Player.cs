@@ -18,8 +18,13 @@ public class Player : Entity, IMovement
         ShakeCamera = GetNode<ShakeCamera>("Camera2D");
     }
 
-    public override void _Process(float delta)
+    public override void _PhysicsProcess(float delta)
     {
+        Movement.Update(this, GetMovementAxis(), delta);
+
+        if (animationPlayer is not null)
+            Movement.AnimateWalking(animationPlayer, this);
+
         var usedItem = TryToUseItemInHand(delta);
         BulletTime(usedItem);
     }
@@ -30,11 +35,12 @@ public class Player : Entity, IMovement
         else Engine.TimeScale = Mathf.Min(Engine.TimeScale + bulletTimeDecay, 1.0f);
     }
 
-    protected override Vector2 GetMovementAxis()
+    protected Vector2 GetMovementAxis()
     {
         var axis = Vector2.Zero;
         axis.x = (Input.IsActionPressed(InputActions.MoveRightActionInput) ? 1 : 0) - (Input.IsActionPressed(InputActions.MoveLeftActionInput) ? 1 : 0);
         axis.y = (Input.IsActionPressed(InputActions.MoveDownActionInput) ? 1 : 0) - (Input.IsActionPressed(InputActions.MoveUpActionInput) ? 1 : 0);
+        if (axis == Vector2.Zero) return axis;
         return axis.Normalized();
     }
 

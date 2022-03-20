@@ -3,12 +3,12 @@ using System;
 
 public class Enemy : Entity
 {
-    public NpcMind NpcPathfinding { get; private set; } = null!;
+    public NpcMind NpcMind { get; private set; } = null!;
     Player player = null!;
 
     public override void _Ready()
     {
-        Movement = new Movement(maxSpeed: 100,acceleration:400);
+        Movement = new Movement(maxSpeed: 100, acceleration: 400);
         var bloodParticleDeathScene = (PackedScene)ResourceLoader.Load(Imports.BLOOD_PARTICLE_DEATH_PATH);
         var bloodParticleHitScene = (PackedScene)ResourceLoader.Load(Imports.BLOOD_PARTICLE_HIT_PATH);
 
@@ -17,18 +17,15 @@ public class Enemy : Entity
         player = GetTree().Root.GetNode("Main").GetNode<Player>(ScenesPaths.PLAYER_PATH);
 
         var map = GetTree().Root.GetNode("Main").GetNode<Map>(ScenesPaths.MAP_PATH);
-        NpcPathfinding = new NpcMind(map);
+        NpcMind = new NpcMind(map);
     }
 
-    public override void _Process(float delta)
+    public override void _PhysicsProcess(float delta)
     {
-        base._Process(delta);
-
-
-    }
-
-    protected override Vector2 GetMovementAxis()
-    {
-        return NpcPathfinding.GetDirToPlayer(this, player);
+        //NpcMind.Update(this, player, Movement, delta);
+        Movement.Update(this, NpcMind.GetMovementDir(this, player), delta);
+        
+        if (animationPlayer is not null)
+            Movement.AnimateWalking(animationPlayer, this);
     }
 }

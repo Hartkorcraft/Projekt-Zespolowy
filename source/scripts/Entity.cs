@@ -16,11 +16,4 @@ public abstract class Entity : KinematicBody2D, IMovement, IHealthSystem
         HealthSystem = new HealtSystem_Entity(5, 5, () => GlobalPosition, this, bloodParticleScene);
     }
 
-    public override void _PhysicsProcess(float delta)
-    {
-        Movement.Update(this, GetMovementAxis(), delta, animationPlayer);
-    }
-
-    protected virtual Vector2 GetMovementAxis() => Vector2.Zero;
-
 }

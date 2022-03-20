@@ -3,13 +3,26 @@ using System;
 
 public class Arm : Position2D
 {
-    IHandAble? itemInHand;
+    IHandAble itemInHand = null!;
+    int itemInHandIndex = 0;
     public Entity ArmParent { get; private set; } = null!;
 
     public override void _EnterTree()
     {
-        itemInHand = GetChild<IHandAble>(0);
+        SelectNextItemInHand();
         ArmParent = (Entity)GetParent();
+    }
+
+    public void SelectNextItemInHand()
+    {
+        var asNode = itemInHand as Node2D;
+        if (asNode is not null) asNode.Visible = false;
+
+        itemInHandIndex = ++itemInHandIndex >= GetChildCount() ? 0 : ++itemInHandIndex;
+        itemInHand = GetChild<IHandAble>(itemInHandIndex);
+
+        asNode = itemInHand as Node2D;
+        if (asNode is not null) asNode.Visible = true;
     }
 
     public override void _PhysicsProcess(float delta)
@@ -19,7 +32,7 @@ public class Arm : Position2D
 
     public bool TryToUseItemInHand(float delta)
     {
-        return itemInHand?.Use(this, delta) ?? false;
+        return itemInHand.Use(this, delta);
     }
 
     void PointArm()
