@@ -5,7 +5,7 @@ using Godot;
 
 public class NpcMind
 {
-    float viewRange = 100;
+    float viewRange = 200;
 
     Map map;
     public List<PathCell> Path = new List<PathCell>();
@@ -22,16 +22,19 @@ public class NpcMind
             exclude: new Godot.Collections.Array { npc },
             collisionLayer: 0b11);
 
-        var hit = result["collider"];
-        var distanceToPlayer = npc.GlobalPosition.DistanceTo(player.GlobalPosition);
-
-        if (hit is Player && distanceToPlayer <= viewRange)
+        if (result.Count > 0)
         {
-            playerLastSeenPos = player.GlobalPosition;
+            var hit = result["collider"];
+            var distanceToPlayer = npc.GlobalPosition.DistanceTo(player.GlobalPosition);
 
-            var dir = player.GlobalPosition - npc.GlobalPosition;
-            dir.Normalized();
-            return dir;
+            if (hit is Player && distanceToPlayer <= viewRange)
+            {
+                playerLastSeenPos = player.GlobalPosition;
+
+                var dir = player.GlobalPosition - npc.GlobalPosition;
+                dir.Normalized();
+                return dir;
+            }
         }
         if (playerLastSeenPos is null) return Vector2.Zero;
 

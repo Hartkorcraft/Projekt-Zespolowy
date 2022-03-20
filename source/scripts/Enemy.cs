@@ -8,7 +8,7 @@ public class Enemy : Entity
 
     public override void _Ready()
     {
-        Movement = new Movement(maxSpeed: 50);
+        Movement = new Movement(maxSpeed: 100,acceleration:400);
         var bloodParticleDeathScene = (PackedScene)ResourceLoader.Load(Imports.BLOOD_PARTICLE_DEATH_PATH);
         var bloodParticleHitScene = (PackedScene)ResourceLoader.Load(Imports.BLOOD_PARTICLE_HIT_PATH);
 
