@@ -5,4 +5,5 @@ public enum TileType
     Grass = 1,
     Path = 2,
     Wall = 3,
+    Rubble = 4,
 }

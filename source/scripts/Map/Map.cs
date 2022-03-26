@@ -1,12 +1,13 @@
 using Godot;
 using System;
 
-public class Map : Node2D
+public class Map : Node
 {
     public const int TILE_SIZE = 8;
     public static readonly Vector2 HALF_TILE = new Vector2(4, 4);
 
     public PathFinding PathFinding { get; private set; } = null!;
+    MapGenerator mapGenerator = new MapGenerator();
     bool initMap = true;
 
     static int sizeX = 50;
@@ -19,7 +20,7 @@ public class Map : Node2D
     Tiles tilesWalls = null!;
     TileSet tileSet = null!;
 
-    PackedScene hitWallParticle = null!; //Todo przenieść do jednej klasy wszystkie cząstki
+
 
     // cordy świata na mampy
     public Vector2 WorldToMap(Vector2 pos)
@@ -40,11 +41,7 @@ public class Map : Node2D
 
         PathFinding = new PathFinding((sizeX, sizeY));
 
-        hitWallParticle = (PackedScene)ResourceLoader.Load(Imports.WALL_PARTICLE_PATH);
-
-
         if (initMap) InitMap((sizeX, sizeY));
-
     }
 
     // Generacja mapy
@@ -54,18 +51,7 @@ public class Map : Node2D
         tilesWalls.Clear();
 
         mapTiles = new Tile[size.x, size.y];
-
-        for (int y = 0; y < size.y; y++)
-            for (int x = 0; x < size.x; x++)
-            {
-                if (x == (int)size.x / 2)
-                {
-                    var newTile = new Tile(x, y, TileType.Path, TileType.Empty);
-                    var (_x, _y) = (x, y);
-                    SetCell(new DestructableTile(x, y, TileType.Path, TileType.Wall, new HealthSystem_Tile(10, 10, () => new Vector2(_x, _y) * TILE_SIZE, this, newTile, hitWallParticle)));
-                }
-                else SetCell(new Tile(x, y, TileType.Grass, TileType.Empty));
-            }
+        mapGenerator.Generate(this, size);
     }
 
     public static bool OnMap((int x, int y) pos)

@@ -28,6 +28,10 @@ public class Arm : Position2D
     public override void _PhysicsProcess(float delta)
     {
         PointArm();
+        if (Input.IsActionJustPressed(InputActions.CHANGE_WEAPON_INPUT))
+        {
+            SelectNextItemInHand();
+        }
     }
 
     public bool TryToUseItemInHand(float delta)

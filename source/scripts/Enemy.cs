@@ -14,9 +14,9 @@ public class Enemy : Entity
 
         HealthSystem = new HealtSystem_Entity(8, 8, () => GlobalPosition, this, hitParticleScene: bloodParticleHitScene, deathParticleScene: bloodParticleDeathScene);
 
-        player = GetTree().Root.GetNode("Main").GetNode<Player>(ScenesPaths.PLAYER_PATH);
+        player = this.GetScene<Player>(ScenesPaths.PLAYER_PATH);
+        var map = this.GetScene<Map>(ScenesPaths.MAP_PATH);
 
-        var map = GetTree().Root.GetNode("Main").GetNode<Map>(ScenesPaths.MAP_PATH);
         NpcMind = new NpcMind(map);
     }
 
@@ -24,7 +24,7 @@ public class Enemy : Entity
     {
         //NpcMind.Update(this, player, Movement, delta);
         Movement.Update(this, NpcMind.GetMovementDir(this, player), delta);
-        
+
         if (animationPlayer is not null)
             Movement.AnimateWalking(animationPlayer, this);
     }

@@ -25,7 +25,7 @@ public class Pistol : Sprite, IHandAble
     {
         this.FlipV = Mathf.Abs(this.GlobalRotationDegrees) >= 90;
 
-        if (Input.IsActionPressed(InputActions.ShootAction) is false)
+        if (Input.IsActionPressed(InputActions.SHOOT_INPUT) is false)
         {
             bulletsShootInBurst = 0;
         }
@@ -48,7 +48,7 @@ public class Pistol : Sprite, IHandAble
 
         var rotatedArmDir = new Vector2(1, 0).Rotated(arm.Rotation);
 
-        bullet.FireBullet(rotatedArmDir);
+        bullet.TryToFireBullet(rotatedArmDir, arm);
         gunShotSound?.Play();
         bulletsShootInBurst++;
         var player = arm.ArmParent as Player;

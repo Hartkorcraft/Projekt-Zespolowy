@@ -44,14 +44,33 @@ public class Bullet : Area2D, IAttack
             RemoveBullet();
     }
 
-    public void FireBullet(Vector2 dir)
+    public void TryToFireBullet(Vector2 dir, Arm arm)
     {
         fireDirection = dir;
         traveledDistance = 0;
         currentSpread = Utils.RandomFloat(-spread, spread);
         moved = false;
-        Hide();
         active = true;
+
+        CheckBarrelBlock(arm);
+    }
+
+    // Aby sprawdzić czy lufa jest zablokowana żeby nie było problemów z kolizjami 
+    void CheckBarrelBlock(Arm arm)
+    {
+        //raycast aby sprawdzić czy widzi
+        var spaceState = arm.GetWorld2d().DirectSpaceState;
+        var result = spaceState.IntersectRay(
+            from: arm.GlobalPosition,
+            to: this.GlobalPosition,
+            exclude: new Godot.Collections.Array { this },
+            collisionLayer: 0b01111); //TODO do zmiennej 
+
+        if (result.Count > 0)
+        {
+            var hit = result["collider"] as Node;
+            BulletImpact(hit);
+        }
     }
 
     // Sygnał któy odpala się kiedy pocisk coś uderzy
@@ -60,26 +79,26 @@ public class Bullet : Area2D, IAttack
         if (this.active is false) return;
 
         //IHealth? hit = null;
+        BulletImpact(node);
+    }
 
-        var asTiles = node as Tiles;
+    void BulletImpact(Node? hit)
+    {
+        if (hit is null) GD.PrintErr("null hit");
+
+        var asTiles = hit as Tiles;
         if (asTiles is not null)
         {
             var offset = new Vector2(1f, 0).Rotated(currentSpread + this.Rotation);
-            var worldPos = asTiles.WorldToMap(Position + offset);
-            var mapPos = ((int)worldPos.x, (int)worldPos.y);
+            var mapPos = asTiles.WorldToMap(Position - offset).ToTuple();
             var tileAsIHealth = Map.GetTile(mapPos) as IHealthSystem;
             tileAsIHealth?.HealthSystem.Damage(this);
         }
         else
         {
-            (node as IHealthSystem)?.HealthSystem.Damage(this);
+            (hit as IHealthSystem)?.HealthSystem.Damage(this);
         }
 
-        BulletImpact();
-    }
-
-    void BulletImpact()
-    {
         RemoveBullet();
     }
 
