@@ -2,7 +2,7 @@
 
 [ext_resource path="res://source/tileset.tres" type="TileSet" id=1]
 [ext_resource path="res://source/scenes/Player.tscn" type="PackedScene" id=2]
-[ext_resource path="res://source/scripts/ShakeCamera.cs" type="Script" id=3]
+[ext_resource path="res://source/scenes/MapGeneration/MapGenerator.tscn" type="PackedScene" id=3]
 [ext_resource path="res://source/scripts/Map/Map.cs" type="Script" id=4]
 [ext_resource path="res://source/scenes/Enemy.tscn" type="PackedScene" id=5]
 [ext_resource path="res://source/scripts/Main.cs" type="Script" id=6]
@@ -19,6 +19,10 @@ script = ExtResource( 8 )
 
 [node name="Map" type="Node" parent="."]
 script = ExtResource( 4 )
+
+[node name="MapGenerator" parent="Map" instance=ExtResource( 3 )]
+process_priority = -1
+position = Vector2( 700, 700 )
 
 [node name="Tiles_Floor" type="TileMap" parent="Map"]
 z_index = -5
@@ -42,13 +46,8 @@ script = ExtResource( 7 )
 [node name="Player" parent="." instance=ExtResource( 2 )]
 bulletTimeSpeed = 0.05
 
-[node name="Camera2D" type="Camera2D" parent="Player"]
-current = true
-zoom = Vector2( 0.3, 0.3 )
-script = ExtResource( 3 )
-decay = 2.0
-maxOffset = Vector2( 2, 3 )
-MaxRotation = 0.1
+[node name="Camera2D" parent="Player" index="5"]
+current = false
 
 [node name="Enemies" type="Node" parent="."]
 
@@ -105,3 +104,5 @@ position = Vector2( 180.333, 168.005 )
 
 [node name="Enemy18" parent="Enemies" instance=ExtResource( 5 )]
 position = Vector2( 152.524, 147.33 )
+
+[editable path="Player"]

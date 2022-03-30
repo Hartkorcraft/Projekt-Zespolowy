@@ -7,7 +7,8 @@ public class Map : Node
     public static readonly Vector2 HALF_TILE = new Vector2(4, 4);
 
     public PathFinding PathFinding { get; private set; } = null!;
-    MapGenerator mapGenerator = new MapGenerator();
+    public RLMapGenerator MapGenerator { get; private set; } = null!;
+
     bool initMap = true;
 
     static int sizeX = 50;
@@ -29,11 +30,21 @@ public class Map : Node
     public (int x, int y) ToMapPos(Vector2 pos)
         => ((int)WorldToMap(pos).x, ((int)WorldToMap(pos).y));
 
+
+    public override void _Input(InputEvent e)
+    {
+        if (e.IsActionPressed(InputActions.SPACE_BAR_INPUT))
+        {
+            InitMap((sizeX, sizeY));
+        }
+    }
+
     public override void _EnterTree()
     {
         tilesFloor = GetNode<Tiles>("Tiles_Floor");
         tilesWalls = GetNode<Tiles>("Tiles_Walls");
-
+        MapGenerator = GetNode<RLMapGenerator>("MapGenerator");
+        
         tilesFloor.Map = this;
         tilesWalls.Map = this;
 
@@ -44,6 +55,11 @@ public class Map : Node
         if (initMap) InitMap((sizeX, sizeY));
     }
 
+    public override void _Ready()
+    {
+        base._Ready();
+    }
+
     // Generacja mapy
     public void InitMap((int x, int y) size)
     {
@@ -51,7 +67,7 @@ public class Map : Node
         tilesWalls.Clear();
 
         mapTiles = new Tile[size.x, size.y];
-        mapGenerator.Generate(this, size);
+        MapGenerator.GenerateMap(this);
     }
 
     public static bool OnMap((int x, int y) pos)

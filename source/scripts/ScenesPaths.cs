@@ -7,7 +7,6 @@ public static class ScenesPaths
     public const string MAP_PATH = "Map";
     public const string PLAYER_PATH = "Player";
     public const string PREFABS = "Prefabs";
-
     public static T GetScene<T>(this Node node, string path) where T : Node
         => node.GetTree().Root.GetNode("Main").GetNode<T>(path) ?? throw new System.Exception("Invalid path");
 

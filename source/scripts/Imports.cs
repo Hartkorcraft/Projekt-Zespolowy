@@ -8,4 +8,7 @@ public static class Imports
 
     public const string BLOOD_PARTICLE_HIT_PATH = "res://source/scenes/BloodParticleHit.tscn";
     public const string WALL_PARTICLE_PATH = "res://source/scenes/WallParticle.tscn";
+    public const string RIGID_BODY_ROOM_PATH = "res://source/scenes/RigidBodyRoom.tscn";
+    public const string BSP_BUILDING_PATH = "res://source/scenes/MapGeneration/BSPBuilding.tscn";
+
 }

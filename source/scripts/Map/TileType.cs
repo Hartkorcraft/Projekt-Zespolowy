@@ -6,4 +6,6 @@ public enum TileType
     Path = 2,
     Wall = 3,
     Rubble = 4,
+    Ground_Dark = 5,
+    Red_Carpet = 6,
 }

@@ -1,6 +1,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Godot;
 
 public static class Utils
@@ -47,6 +48,12 @@ public static class Utils
     public static double RoundDown(double n)
         => Math.Floor(n - 0.5);
 
+    public static IEnumerable<T> OrEmptyIfNull<T>(this IEnumerable<T>? source)
+        => source ?? Enumerable.Empty<T>();
+
+    public static List<T> OrEmptyIfNullList<T>(this List<T>? source)
+        => source ?? new List<T>();
+
     public static KeyValuePair<T1, T2> ToPair<T1, T2>(this Tuple<T1, T2> source)
         => new KeyValuePair<T1, T2>(source.Item1, source.Item2);
 
@@ -58,6 +65,26 @@ public static class Utils
 
     public static Vector2 ToVec2(this (int, int) tuple)
         => new Vector2(tuple.Item1, tuple.Item2);
+
+    public static (int x, int y) Add(this (int x, int y)[] tuples)
+    {
+        (int x, int y) vec = (0, 0);
+        foreach (var tuple in tuples)
+        {
+            vec.x += tuple.x;
+            vec.y += tuple.y;
+        }
+        return vec;
+    }
+
+    public static (int x, int y) Multiply(this (int x, int y) tuple, int value)
+        => (tuple.x * value, tuple.y * value);
+
+    public static (int x, int y) Add(this (int x, int y) tuple, (int x, int y) tuple2)
+        => (tuple.x + tuple2.x, tuple.x + tuple2.y);
+
+    public static Color GetRandomColor() =>
+        new Color((float)rng.NextDouble(), (float)rng.NextDouble(), (float)rng.NextDouble());
 
     private static readonly Dictionary<Dir, (int x, int y)> dictionary = new Dictionary<Dir, (int x, int y)>()
         {
