@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 
 public class Map : Node
 {
@@ -11,17 +12,13 @@ public class Map : Node
 
     bool initMap = true;
 
-    static int sizeX = 50;
-    static int sizeY = 50;
-
     // komórki mapy
-    static Tile[,] mapTiles = null!;
+    Dictionary<(int x, int y), Tile> mapTiles = new Dictionary<(int x, int y), Tile>();
+
     // tilemapy 
     Tiles tilesFloor = null!;
     Tiles tilesWalls = null!;
     TileSet tileSet = null!;
-
-
 
     // cordy świata na mampy
     public Vector2 WorldToMap(Vector2 pos)
@@ -30,12 +27,11 @@ public class Map : Node
     public (int x, int y) ToMapPos(Vector2 pos)
         => ((int)WorldToMap(pos).x, ((int)WorldToMap(pos).y));
 
-
     public override void _Input(InputEvent e)
     {
         if (e.IsActionPressed(InputActions.SPACE_BAR_INPUT))
         {
-            InitMap((sizeX, sizeY));
+            InitMap();
         }
     }
 
@@ -44,50 +40,49 @@ public class Map : Node
         tilesFloor = GetNode<Tiles>("Tiles_Floor");
         tilesWalls = GetNode<Tiles>("Tiles_Walls");
         MapGenerator = GetNode<RLMapGenerator>("MapGenerator");
-        
+
         tilesFloor.Map = this;
         tilesWalls.Map = this;
 
         tileSet = (TileSet)ResourceLoader.Load(Imports.TILESET_PATH);
 
-        PathFinding = new PathFinding((sizeX, sizeY));
+        //PathFinding = new PathFinding((sizeX, sizeY));
 
-        if (initMap) InitMap((sizeX, sizeY));
     }
 
     public override void _Ready()
     {
-        base._Ready();
+        if (initMap) InitMap();
     }
 
     // Generacja mapy
-    public void InitMap((int x, int y) size)
+    public void InitMap()
     {
         tilesFloor.Clear();
         tilesWalls.Clear();
-
-        mapTiles = new Tile[size.x, size.y];
-        MapGenerator.GenerateMap(this);
+        Bullet.Map = this;
+       
+        MapGenerator.InitMap(this);
     }
 
-    public static bool OnMap((int x, int y) pos)
-        => pos.x >= 0 && pos.x < sizeX && pos.y >= 0 && pos.y < sizeY;
+    public bool OnMap((int x, int y) pos)
+        => mapTiles.ContainsKey(pos);
 
     public bool CheckIfTileHasCollision(TileType tileType)
         => tileSet.TileGetShapeCount((int)tileType) > 0;
 
     public void SetCell(Tile newTile)
     {
-        if (OnMap(newTile.Pos) is false) throw new Exception("Out of bounds " + newTile.Pos);
-        mapTiles[newTile.Pos.x, newTile.Pos.y] = newTile;
-
+        //if (OnMap(newTile.Pos) is false) throw new Exception("Out of bounds " + newTile.Pos);
+        
+        mapTiles[newTile.Pos] = newTile;
         tilesFloor.SetCell(newTile.Pos.x, newTile.Pos.y, (int)newTile.TileType_Floor);
         tilesWalls.SetCell(newTile.Pos.x, newTile.Pos.y, (int)newTile.TileType_Wall);
     }
 
-    public static Tile? GetTile((int x, int y) pos)
+    public Tile? GetTile((int x, int y) pos)
     {
-        if (OnMap(pos) is false) return null; // throw new Exception("Out of bounds " + pos);
-        return mapTiles[pos.x, pos.y];
+        if (OnMap(pos) is false) throw new Exception("Out of bounds " + pos);
+        return mapTiles[pos];
     }
 }

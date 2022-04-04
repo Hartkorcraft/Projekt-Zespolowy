@@ -9,7 +9,7 @@ public class RigidBodyBuilding : RigidBody2D
     public (int x, int y) BuildingSize { get; private set; }
     public (float x, float y) offset { get; private set; }
 
-    CollisionShape2D? collisionShape2D { get; set; } = null!;
+    public CollisionShape2D? collisionShape2D { get; private set; } = null!;
     int tileSize = 8;
     bool draw = false;
 

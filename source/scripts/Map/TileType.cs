@@ -7,5 +7,8 @@ public enum TileType
     Wall = 3,
     Rubble = 4,
     Ground_Dark = 5,
-    Red_Carpet = 6,
+    Carpet_Red = 6,
+    Carpet_Green = 7,
+    Carpet_Blue = 8,
+    Carpet_Orange = 9,
 }

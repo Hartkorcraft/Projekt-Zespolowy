@@ -1,13 +1,14 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://source/tileset.tres" type="TileSet" id=1]
-[ext_resource path="res://source/scenes/Player.tscn" type="PackedScene" id=2]
 [ext_resource path="res://source/scenes/MapGeneration/MapGenerator.tscn" type="PackedScene" id=3]
 [ext_resource path="res://source/scripts/Map/Map.cs" type="Script" id=4]
-[ext_resource path="res://source/scenes/Enemy.tscn" type="PackedScene" id=5]
 [ext_resource path="res://source/scripts/Main.cs" type="Script" id=6]
 [ext_resource path="res://source/scripts/map/Tiles.cs" type="Script" id=7]
 [ext_resource path="res://source/scripts/Prefabs.cs" type="Script" id=8]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 1845.52, 36.149 )
 
 [node name="Main" type="Node"]
 script = ExtResource( 6 )
@@ -22,7 +23,20 @@ script = ExtResource( 4 )
 
 [node name="MapGenerator" parent="Map" instance=ExtResource( 3 )]
 process_priority = -1
-position = Vector2( 700, 700 )
+
+[node name="StaticBody2D" type="StaticBody2D" parent="Map/MapGenerator"]
+collision_layer = 262144
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Map/MapGenerator/StaticBody2D"]
+light_mask = 0
+shape = SubResource( 1 )
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Map/MapGenerator/StaticBody2D"]
+light_mask = 0
+position = Vector2( 328.468, -1344.08 )
+rotation = -1.57079
+shape = SubResource( 1 )
 
 [node name="Tiles_Floor" type="TileMap" parent="Map"]
 z_index = -5
@@ -43,66 +57,4 @@ format = 1
 tile_data = PoolIntArray( 3, 3, 0, 131068, 3, 0, 65539, 3, 0, 196604, 3, 0, 131075, 3, 0, 262140, 3, 0, 196611, 3, 0 )
 script = ExtResource( 7 )
 
-[node name="Player" parent="." instance=ExtResource( 2 )]
-bulletTimeSpeed = 0.05
-
-[node name="Camera2D" parent="Player" index="5"]
-current = false
-
 [node name="Enemies" type="Node" parent="."]
-
-[node name="Enemy" parent="Enemies" instance=ExtResource( 5 )]
-position = Vector2( 64.8897, 32.5942 )
-
-[node name="Enemy3" parent="Enemies" instance=ExtResource( 5 )]
-position = Vector2( 60.9144, 55.9181 )
-
-[node name="Enemy4" parent="Enemies" instance=ExtResource( 5 )]
-position = Vector2( 33.1058, 35.2429 )
-
-[node name="Enemy2" parent="Enemies" instance=ExtResource( 5 )]
-position = Vector2( 45.8624, 182.434 )
-
-[node name="Enemy5" parent="Enemies" instance=ExtResource( 5 )]
-position = Vector2( 41.8871, 205.758 )
-
-[node name="Enemy6" parent="Enemies" instance=ExtResource( 5 )]
-position = Vector2( 14.0785, 185.083 )
-
-[node name="Enemy7" parent="Enemies" instance=ExtResource( 5 )]
-position = Vector2( 198.081, 69.4596 )
-
-[node name="Enemy8" parent="Enemies" instance=ExtResource( 5 )]
-position = Vector2( 194.106, 92.7835 )
-
-[node name="Enemy9" parent="Enemies" instance=ExtResource( 5 )]
-position = Vector2( 166.297, 72.1083 )
-
-[node name="Enemy10" parent="Enemies" instance=ExtResource( 5 )]
-position = Vector2( 51.1167, 107.816 )
-
-[node name="Enemy11" parent="Enemies" instance=ExtResource( 5 )]
-position = Vector2( 47.1414, 131.14 )
-
-[node name="Enemy12" parent="Enemies" instance=ExtResource( 5 )]
-position = Vector2( 19.3328, 110.465 )
-
-[node name="Enemy13" parent="Enemies" instance=ExtResource( 5 )]
-position = Vector2( 32.0893, 257.656 )
-
-[node name="Enemy14" parent="Enemies" instance=ExtResource( 5 )]
-position = Vector2( 28.114, 280.98 )
-
-[node name="Enemy15" parent="Enemies" instance=ExtResource( 5 )]
-position = Vector2( 0.305447, 260.305 )
-
-[node name="Enemy16" parent="Enemies" instance=ExtResource( 5 )]
-position = Vector2( 184.308, 144.682 )
-
-[node name="Enemy17" parent="Enemies" instance=ExtResource( 5 )]
-position = Vector2( 180.333, 168.005 )
-
-[node name="Enemy18" parent="Enemies" instance=ExtResource( 5 )]
-position = Vector2( 152.524, 147.33 )
-
-[editable path="Player"]

@@ -3,6 +3,8 @@
 [ext_resource path="res://source/scripts/MapGenerator/RigidBodyBuilding.cs" type="Script" id=1]
 
 [node name="BSPBuilding" type="RigidBody2D"]
+collision_layer = 262144
+collision_mask = 262144
 gravity_scale = 0.0
 script = ExtResource( 1 )
 

@@ -75,7 +75,7 @@ public class NpcMind
 
     bool CheckForPathfindingBlocking((int x, int y) pos)
     {
-        var tile = Map.GetTile(pos) ?? throw new Exception("no tile");
+        var tile = map.GetTile(pos) ?? throw new Exception("no tile");
 
         var floorTileType = tile.TileType_Floor;
         var wallTileType = tile.TileType_Wall;

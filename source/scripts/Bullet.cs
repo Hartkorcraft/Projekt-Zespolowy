@@ -3,6 +3,8 @@ using System;
 
 public class Bullet : Area2D, IAttack
 {
+    public static Map Map = null!;
+    
     [Export] float speed = 300f;
     [Export] float maxDistance = 500f;
     [Export] float spread = 0.2f;
