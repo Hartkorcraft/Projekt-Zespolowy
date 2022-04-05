@@ -1,6 +1,7 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://source/tileset.tres" type="TileSet" id=1]
+[ext_resource path="res://Imported/Music/3.2 Crystalized Dreams ((work in progress)).mp3" type="AudioStream" id=2]
 [ext_resource path="res://source/scenes/MapGeneration/MapGenerator.tscn" type="PackedScene" id=3]
 [ext_resource path="res://source/scripts/Map/Map.cs" type="Script" id=4]
 [ext_resource path="res://source/scripts/Main.cs" type="Script" id=6]
@@ -23,6 +24,9 @@ script = ExtResource( 4 )
 
 [node name="MapGenerator" parent="Map" instance=ExtResource( 3 )]
 process_priority = -1
+num_rooms = 20
+horizontalSpreed = 200.0
+verticalSpread = 200.0
 
 [node name="StaticBody2D" type="StaticBody2D" parent="Map/MapGenerator"]
 collision_layer = 262144
@@ -58,3 +62,8 @@ tile_data = PoolIntArray( 3, 3, 0, 131068, 3, 0, 65539, 3, 0, 196604, 3, 0, 1310
 script = ExtResource( 7 )
 
 [node name="Enemies" type="Node" parent="."]
+
+[node name="Music" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 2 )
+volume_db = -6.0
+autoplay = true

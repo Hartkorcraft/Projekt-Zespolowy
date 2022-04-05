@@ -8,6 +8,7 @@ public class RLMapGenerator : Node2D
 {
     PackedScene bspBuildingScene = null!;
     PackedScene playerScene = null!;
+    PackedScene testEnemyScene = null!;
 
     Node buildings = null!;
     bool generating = false;
@@ -28,6 +29,7 @@ public class RLMapGenerator : Node2D
     {
         bspBuildingScene = (PackedScene)ResourceLoader.Load(Imports.BSP_BUILDING_PATH);
         playerScene = (PackedScene)ResourceLoader.Load(Imports.PLAYER_SCENE);
+        testEnemyScene = (PackedScene)ResourceLoader.Load(Imports.ENEMY_TEST_SCENE);
 
         buildings = GetNode("Buildings");
     }
@@ -101,24 +103,23 @@ public class RLMapGenerator : Node2D
 
         InitArea(map, out bottomLeft, out topRight);
         InitGround(map, bottomLeft, topRight);
-
         await ToSignal(GetTree().CreateTimer(0.5f), "timeout");
 
         await CreateBuilding(map);
-
-        Func<int, int, HealthSystem_Tile> createWallHealthSystem = (x, y) => new HealthSystem_Tile(5, 5, () => new Vector2(x, y) * Map.TILE_SIZE, map, new Tile(x, y, TileType.Rubble)); //TODO hit particles 
-
         await ToSignal(GetTree(), "idle_frame");
 
+        Func<int, int, HealthSystem_Tile> createWallHealthSystem = (x, y) => new HealthSystem_Tile(5, 5, () => new Vector2(x, y) * Map.TILE_SIZE, map, new Tile(x, y, TileType.Rubble)); //TODO hit particles 
         CreateInsideWalls(map, createWallHealthSystem);
         await ToSignal(GetTree().CreateTimer(0.6f), "timeout");
 
         CreateOutSideWalls(map, createWallHealthSystem);
         await ToSignal(GetTree().CreateTimer(0.6f), "timeout");
 
-
         var player = playerScene.Instance<Player>();
         map.AddChild(player);
+
+        CreateEnemies(map, bottomLeft, topRight);
+        await ToSignal(GetTree().CreateTimer(0.6f), "timeout");
 
         QueueFree();
 
@@ -137,8 +138,8 @@ public class RLMapGenerator : Node2D
 
         static void InitGround(Map map, Vector2 bottomLeft, Vector2 topRight)
         {
-            for (int x = (int)bottomLeft.x; x <= (int)topRight.x; x++)
-                for (int y = (int)bottomLeft.y; y <= (int)topRight.y; y++)
+            for (int x = (int)bottomLeft.x - 1; x <= (int)topRight.x + 1; x++)
+                for (int y = (int)bottomLeft.y - 1; y <= (int)topRight.y + 1; y++)
                     map.SetCell(new Tile(x, y, TileType.Grass));
         }
 
@@ -198,6 +199,23 @@ public class RLMapGenerator : Node2D
                         }
             }
         }
+
+        void CreateEnemies(Map map, Vector2 bottomLeft, Vector2 topRight)
+        {
+            var enemyPool = ScenesPaths.GetScene<Node>(map, ScenesPaths.ENEMIE_POOL);
+
+            for (int x = (int)bottomLeft.x; x <= (int)topRight.x; x++)
+                for (int y = (int)bottomLeft.y; y <= (int)topRight.y; y++)
+                {
+                    if (x % 8 != 0 || y % 8 != 0) continue;
+                    var enemy = testEnemyScene.Instance<Enemy>();
+                    enemy.Position = new Vector2(x * Map.TILE_SIZE, y * Map.TILE_SIZE);
+                    enemyPool.AddChild(enemy);
+                }
+
+
+
+        }
     }
 
     public AStar2D FindMinimumSpanningTree(List<Vector2> roomPositions)
@@ -248,14 +266,15 @@ public class RLMapGenerator : Node2D
                 }
             }
         }
-        foreach (RigidBodyBuilding building in buildings.GetChildren())
-        {
-            var buildingShape = building.collisionShape2D?.Shape as RectangleShape2D ?? throw new Exception("invalid shape");
-            var buildingRect = new Rect2(building.Position - (building.BuildingSize.ToVec2() * tileSize) / 2, buildingShape.Extents * 2);
-            var buildingPreviewColor = new Color(0, 0.1f, 0.8f, 0.5f);
 
-            DrawRect(buildingRect, buildingPreviewColor);
-        }
+        // foreach (RigidBodyBuilding building in buildings.GetChildren())
+        // {
+        //     var buildingShape = building.collisionShape2D?.Shape as RectangleShape2D ?? throw new Exception("invalid shape");
+        //     var buildingRect = new Rect2(building.Position - (building.BuildingSize.ToVec2() * tileSize) / 2, buildingShape.Extents * 2);
+        //     var buildingPreviewColor = new Color(0, 0.1f, 0.8f, 0.5f);
+
+        //     DrawRect(buildingRect, buildingPreviewColor);
+        // }
     }
 
 

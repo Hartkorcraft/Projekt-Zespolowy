@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/3.2 Crystalized Dreams ((work in progress)).mp3-82bc243192b217418a1a5e550639de6a.mp3str"
+
+[deps]
+
+source_file="res://Imported/Music/3.2 Crystalized Dreams ((work in progress)).mp3"
+dest_files=[ "res://.import/3.2 Crystalized Dreams ((work in progress)).mp3-82bc243192b217418a1a5e550639de6a.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

@@ -45,9 +45,6 @@ public class Map : Node
         tilesWalls.Map = this;
 
         tileSet = (TileSet)ResourceLoader.Load(Imports.TILESET_PATH);
-
-        //PathFinding = new PathFinding((sizeX, sizeY));
-
     }
 
     public override void _Ready()
@@ -61,8 +58,9 @@ public class Map : Node
         tilesFloor.Clear();
         tilesWalls.Clear();
         Bullet.Map = this;
-       
+
         MapGenerator.InitMap(this);
+        PathFinding = new PathFinding(mapTiles);
     }
 
     public bool OnMap((int x, int y) pos)
@@ -74,7 +72,7 @@ public class Map : Node
     public void SetCell(Tile newTile)
     {
         //if (OnMap(newTile.Pos) is false) throw new Exception("Out of bounds " + newTile.Pos);
-        
+
         mapTiles[newTile.Pos] = newTile;
         tilesFloor.SetCell(newTile.Pos.x, newTile.Pos.y, (int)newTile.TileType_Floor);
         tilesWalls.SetCell(newTile.Pos.x, newTile.Pos.y, (int)newTile.TileType_Wall);

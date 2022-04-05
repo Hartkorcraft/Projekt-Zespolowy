@@ -34,7 +34,7 @@ public abstract class HealthSystem
 
     public virtual void OnDeath(IAttack attack)
     {
-        GD.Print("Destroyed " + this.GetType());
+        //GD.Print("Destroyed " + this.GetType());
         SpawnParticlesOnDeath(attack);
     }
 

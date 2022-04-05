@@ -5,7 +5,7 @@ using Godot;
 
 public class NpcMind
 {
-    float viewRange = 200;
+    float viewRange = 1000;
 
     Map map;
     public List<PathCell> Path = new List<PathCell>();

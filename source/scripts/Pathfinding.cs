@@ -7,7 +7,7 @@ using System.Linq;
 public class PathFinding
 {
     (int x, int y) gridSize;
-    PathCell[,] grid;
+    Dictionary<(int x, int y), Tile> pathFidingTiles;
 
     /// <summary>
     /// <para> checkBlocking - choose what blocks movement including walls, enemies etc </para> 
@@ -22,8 +22,8 @@ public class PathFinding
         if (startPos.CheckIfInRange(gridSize) is false || endPos.CheckIfInRange(gridSize) is false)
             return new List<PathCell>();
 
-        PathCell startCell = grid[startPos.x, startPos.y];
-        PathCell endCell = grid[endPos.x, endPos.y];
+        PathCell startCell = pathFidingTiles[startPos].PathCell;
+        PathCell endCell = pathFidingTiles[endPos].PathCell;
 
         List<PathCell> openSet = new List<PathCell>();
         HashSet<PathCell> closedSet = new HashSet<PathCell>();
@@ -97,7 +97,7 @@ public class PathFinding
 
         List<PathCell> openSet = new List<PathCell>();
         List<PathCell> closedSet = new List<PathCell>();
-        PathCell startCell = grid[startPos.x, startPos.y];
+        PathCell startCell = pathFidingTiles[startPos].PathCell;
         openSet.Add(startCell);
         var safetyCheck = 10000;
 
@@ -123,8 +123,8 @@ public class PathFinding
         foreach (var dir in Utils.DirToVecs)
         {
             (int x, int y) neigbhourPos = (cell.GridPos.x + dir.Value.x, cell.GridPos.y + dir.Value.y);
-            if (neigbhourPos.CheckIfInRange(gridSize) && grid[neigbhourPos.x, neigbhourPos.y] != null)
-                neigbours.Add(grid[neigbhourPos.x, neigbhourPos.y]);
+            if (neigbhourPos.CheckIfInRange(gridSize) && pathFidingTiles[neigbhourPos] != null)
+                neigbours.Add(pathFidingTiles[neigbhourPos].PathCell);
         }
         return neigbours;
     }
@@ -135,8 +135,8 @@ public class PathFinding
         foreach (var dir in Utils.DirDiagonalToVecs)
         {
             (int x, int y) neigbhourPos = (cell.GridPos.x + dir.Value.x, cell.GridPos.y + dir.Value.y);
-            if (neigbhourPos.CheckIfInRange(gridSize) && grid[neigbhourPos.x, neigbhourPos.y] != null)
-                neigbours.Add(grid[neigbhourPos.x, neigbhourPos.y]);
+            if (neigbhourPos.CheckIfInRange(gridSize) && pathFidingTiles[neigbhourPos] != null)
+                neigbours.Add(pathFidingTiles[neigbhourPos].PathCell);
         }
         return neigbours;
     }
@@ -151,19 +151,9 @@ public class PathFinding
         else return 14 * distantx + 10 * (distanty - distantx);
     }
 
-    public PathFinding((int x, int y) _gridSize)
+    public PathFinding(Dictionary<(int x, int y), Tile> mapTiles)
     {
-        gridSize = _gridSize;
-
-        grid = new PathCell[gridSize.x, gridSize.y];
-
-        for (int y = 0; y < gridSize.y; y++)
-        {
-            for (int x = 0; x < gridSize.x; x++)
-            {
-                grid[x, y] = new PathCell((x, y));
-            }
-        }
+        pathFidingTiles = mapTiles;
     }
 }
 
