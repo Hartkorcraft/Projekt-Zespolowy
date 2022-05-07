@@ -66,7 +66,7 @@ public class RLMapGenerator : Node2D
             room.GenerateBuilding(
                 pos: pos,
                 buildingSize: (width, height),
-                minRoomSize: (4, 4),
+                minRoomSize: (5, 5),
                 solverBias: solverBias,
                 tileSize: tileSize
                 );
@@ -112,7 +112,7 @@ public class RLMapGenerator : Node2D
         CreateInsideWalls(map, createWallHealthSystem);
         await ToSignal(GetTree().CreateTimer(0.6f), "timeout");
 
-        CreateOutSideWalls(map, createWallHealthSystem);
+        CreateOutsideWalls(map, createWallHealthSystem);
         await ToSignal(GetTree().CreateTimer(0.6f), "timeout");
 
         var player = playerScene.Instance<Player>();
@@ -184,7 +184,7 @@ public class RLMapGenerator : Node2D
             }
         }
 
-        void CreateOutSideWalls(Map map, Func<int, int, HealthSystem_Tile> createWallHealthSystem)
+        void CreateOutsideWalls(Map map, Func<int, int, HealthSystem_Tile> createWallHealthSystem)
         {
             foreach (RigidBodyBuilding building in buildings.GetChildren())
             {
@@ -212,10 +212,8 @@ public class RLMapGenerator : Node2D
                     enemy.Position = new Vector2(x * Map.TILE_SIZE, y * Map.TILE_SIZE);
                     enemyPool.AddChild(enemy);
                 }
-
-
-
         }
+        
     }
 
     public AStar2D FindMinimumSpanningTree(List<Vector2> roomPositions)

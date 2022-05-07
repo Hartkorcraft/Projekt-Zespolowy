@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://source/tileset.tres" type="TileSet" id=1]
 [ext_resource path="res://Imported/Music/3.2 Crystalized Dreams ((work in progress)).mp3" type="AudioStream" id=2]
@@ -8,8 +8,11 @@
 [ext_resource path="res://source/scripts/map/Tiles.cs" type="Script" id=7]
 [ext_resource path="res://source/scripts/Prefabs.cs" type="Script" id=8]
 
-[sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 1845.52, 36.149 )
+[sub_resource type="CircleShape2D" id=1]
+radius = 84.4171
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 726.102, 14.2085 )
 
 [node name="Main" type="Node"]
 script = ExtResource( 6 )
@@ -24,23 +27,22 @@ script = ExtResource( 4 )
 
 [node name="MapGenerator" parent="Map" instance=ExtResource( 3 )]
 process_priority = -1
-num_rooms = 20
-horizontalSpreed = 200.0
-verticalSpread = 200.0
+num_rooms = 4
+minSize = 12
+horizontalSpreed = 80.0
+verticalSpread = 20.0
+deleteProcent = 0.0
+solverBias = 0.1
 
 [node name="StaticBody2D" type="StaticBody2D" parent="Map/MapGenerator"]
 collision_layer = 262144
-collision_mask = 0
+collision_mask = 262144
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Map/MapGenerator/StaticBody2D"]
-light_mask = 0
 shape = SubResource( 1 )
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="Map/MapGenerator/StaticBody2D"]
-light_mask = 0
-position = Vector2( 328.468, -1344.08 )
-rotation = -1.57079
-shape = SubResource( 1 )
+shape = SubResource( 2 )
 
 [node name="Tiles_Floor" type="TileMap" parent="Map"]
 z_index = -5
@@ -66,4 +68,3 @@ script = ExtResource( 7 )
 [node name="Music" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 2 )
 volume_db = -6.0
-autoplay = true

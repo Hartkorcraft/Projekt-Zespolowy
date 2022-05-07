@@ -51,7 +51,7 @@ public class RigidBodyBuilding : RigidBody2D
 
         var shape = new RectangleShape2D();
         shape.CustomSolverBias = solverBias;
-        shape.Extents = buildingSize.ToVec2() * tileSize / 2 + new Vector2(16, 16);
+        shape.Extents = buildingSize.ToVec2() * tileSize / 2 + new Vector2(32, 32);
         collisionShape2D.Shape = shape;
         //collisionShape2D.Position = buildingSize.ToVec2() * tileSize / 2;
 
@@ -98,6 +98,9 @@ public class RigidBodyBuilding : RigidBody2D
         public bool CanBeDivided = true;
         public Color Color;
 
+        BSPNode? Child1 = null;
+        BSPNode? Child2 = null;
+
         // Dzielenie gałęzi drzewa na pół
         public bool Divide((int x, int y) minSize)
         {
@@ -138,9 +141,6 @@ public class RigidBodyBuilding : RigidBody2D
             CanBeDivided = false;
             return true;
         }
-
-        BSPNode? Child1 = null;
-        BSPNode? Child2 = null;
 
         // Zwraca całe drzewo
         public List<BSPNode> GetTree()
