@@ -8,6 +8,8 @@ public class HealthSystem_Tile : HealthSystem
 
     public HealthSystem_Tile(int health, int maxHealth, Func<Vector2> getOriginPos, Map map, Tile newTile, PackedScene? hitParticleScene = null, PackedScene? deathParticleScene = null) : base(health, maxHealth, getOriginPos, hitParticleScene, deathParticleScene)
     {
+        Health = health;
+        MaxHealth = maxHealth;
         this.map = map;
         this.newTile = newTile;
     }

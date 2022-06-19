@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/35.1 39. The only way out.mp3-7691f3c103114f804fb408ad1df14aab.mp3str"
+
+[deps]
+
+source_file="res://Imported/Music/35.1 39. The only way out.mp3"
+dest_files=[ "res://.import/35.1 39. The only way out.mp3-7691f3c103114f804fb408ad1df14aab.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 public class Map : Node
 {
@@ -68,6 +69,8 @@ public class Map : Node
 
     public bool CheckIfTileHasCollision(TileType tileType)
         => tileSet.TileGetShapeCount((int)tileType) > 0;
+
+    public IEnumerable<Tile> GetRandomTiles(int num) => mapTiles.Values.ToList().OrderBy(x => Main.rng.Next()).Take(num);
 
     public void SetCell(Tile newTile)
     {

@@ -3,8 +3,8 @@ using Godot;
 
 public abstract class HealthSystem
 {
-    public int Health { get; private set; }
-    public int MaxHealth { get; private set; }
+    public int Health { get; protected set; }
+    public int MaxHealth { get; protected set; }
     bool dead = false; // żeby nie móc umrzeć gdy się nie żyje 
     protected PackedScene? hitParticleScene; // cząstki po oberaniu np krew
     protected PackedScene? deathParticleScene; // cząstki po śmierci

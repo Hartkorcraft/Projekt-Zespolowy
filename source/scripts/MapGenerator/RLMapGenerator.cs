@@ -11,8 +11,8 @@ public class RLMapGenerator : Node2D
     PackedScene testEnemyScene = null!;
 
     Node buildings = null!;
-    bool generating = false;
-
+    public bool IsGenerating { get; private set; } = false;
+    public bool GeneratedMap { get; private set; } = false;
     [Export] int tileSize = 8; // Rozmiar komórek mapy
     [Export] int num_rooms = 100; // Ilość pokoi
     [Export] int minSize = 20; // Minimalny rozmiar budynku
@@ -21,9 +21,13 @@ public class RLMapGenerator : Node2D
     [Export] float verticalSpread = 400; // Rozrzut wertykalny budynków
     [Export] float deleteProcent = 0.3f; // Szansa na usunięcie budynków
     [Export] float solverBias = 1.5f; // Bias odpychania
-
+    [Export] float ruinWalls = 0.7f;
+    [Export] float dirtPatch = 0.001f;
+    [Export] float trashAmmount = 0.01f;
     AStar2D? mstPath = null;
 
+    public static event Action? OnMapGenerationFinished;
+    public PackedScene WallParticleScene = null!;
 
     public override void _EnterTree()
     {
@@ -42,8 +46,8 @@ public class RLMapGenerator : Node2D
 
     public async void InitMap(Map map)
     {
-        if (generating is true) throw new Exception("Generating is true");
-        generating = true;
+        if (IsGenerating is true) throw new Exception("Generating is true");
+        IsGenerating = true;
         mstPath = null;
 
         var buildingsNodes = buildings.GetChildren();
@@ -89,11 +93,10 @@ public class RLMapGenerator : Node2D
 
         mstPath = FindMinimumSpanningTree(roomPositions);
 
-        generating = false;
+        IsGenerating = false;
 
         await ToSignal(GetTree(), "idle_frame");
         MakeMap(map);
-
     }
 
     public async void MakeMap(Map map)
@@ -108,20 +111,25 @@ public class RLMapGenerator : Node2D
         await CreateBuilding(map);
         await ToSignal(GetTree(), "idle_frame");
 
-        Func<int, int, HealthSystem_Tile> createWallHealthSystem = (x, y) => new HealthSystem_Tile(5, 5, () => new Vector2(x, y) * Map.TILE_SIZE, map, new Tile(x, y, TileType.Rubble)); //TODO hit particles 
+        WallParticleScene = (PackedScene)ResourceLoader.Load(Imports.WALL_PARTICLE_PATH);
+
+        Func<int, int, HealthSystem_Tile> createWallHealthSystem =
+            (x, y) => new HealthSystem_Tile(5, 5, () => new Vector2(x, y) * Map.TILE_SIZE, map, new Tile(x, y, TileType.Rubble), WallParticleScene, WallParticleScene); //TODO hit particles 
+
         CreateInsideWalls(map, createWallHealthSystem);
-        await ToSignal(GetTree().CreateTimer(0.6f), "timeout");
+        await ToSignal(GetTree().CreateTimer(0.1f), "timeout");
 
         CreateOutsideWalls(map, createWallHealthSystem);
-        await ToSignal(GetTree().CreateTimer(0.6f), "timeout");
+        await ToSignal(GetTree().CreateTimer(0.1f), "timeout");
+
+        CreateOpenings();
+        await ToSignal(GetTree().CreateTimer(0.1f), "timeout");
 
         var player = playerScene.Instance<Player>();
         map.AddChild(player);
 
-        CreateEnemies(map, bottomLeft, topRight);
-        await ToSignal(GetTree().CreateTimer(0.6f), "timeout");
-
-        QueueFree();
+        GeneratedMap = true;
+        OnMapGenerationFinished?.Invoke();
 
         void InitArea(Map map, out Vector2 bottomLeft, out Vector2 topRight)
         {
@@ -136,11 +144,22 @@ public class RLMapGenerator : Node2D
             topRight = map.WorldToMap(mapRect.End);
         }
 
-        static void InitGround(Map map, Vector2 bottomLeft, Vector2 topRight)
+        void InitGround(Map map, Vector2 bottomLeft, Vector2 topRight)
         {
             for (int x = (int)bottomLeft.x - 1; x <= (int)topRight.x + 1; x++)
                 for (int y = (int)bottomLeft.y - 1; y <= (int)topRight.y + 1; y++)
+                {
                     map.SetCell(new Tile(x, y, TileType.Grass));
+
+                    if ((float)rng.NextDouble() < dirtPatch)
+                    {
+                        map.SetCell(new Tile(x, y, TileType.Ground_Dark));
+                    }
+                    else if ((float)rng.NextDouble() < trashAmmount)
+                    {
+                        map.SetCell(new Tile(x, y, TileType.Trash));
+                    }
+                }
         }
 
         async System.Threading.Tasks.Task CreateBuilding(Map map)
@@ -165,25 +184,6 @@ public class RLMapGenerator : Node2D
             }
         }
 
-        void CreateInsideWalls(Map map, Func<int, int, HealthSystem_Tile> createWallHealthSystem)
-        {
-            foreach (RigidBodyBuilding building in buildings.GetChildren())
-            {
-                if (building.RoomTree is null) continue;
-                var rooms = building.RoomTree.GetLowestNodes();
-
-                // Ściany budynków 
-                foreach (var room in rooms)
-                    for (int x = 0; x < room.size.x; x++)
-                        for (int y = 0; y < room.size.y; y++)
-                            if (x == 0 || y == 0)
-                            {
-                                var pos = map.WorldToMap(building.Position + (room.pos.x + x, room.pos.y + y).ToVec2() * tileSize) - new Vector2(building.offset.x, building.offset.y);
-                                map.SetCell(new DestructableTile(((int)pos.x), ((int)pos.y), TileType.Rubble, TileType.Wall, createWallHealthSystem(((int)pos.x), ((int)pos.y))));
-                            }
-            }
-        }
-
         void CreateOutsideWalls(Map map, Func<int, int, HealthSystem_Tile> createWallHealthSystem)
         {
             foreach (RigidBodyBuilding building in buildings.GetChildren())
@@ -196,7 +196,47 @@ public class RLMapGenerator : Node2D
                         {
                             var pos = map.WorldToMap(building.Position + new Vector2(x, y) * tileSize) - new Vector2(building.offset.x, building.offset.y);
                             map.SetCell(new DestructableTile(((int)pos.x), ((int)pos.y), TileType.Rubble, TileType.Wall, createWallHealthSystem(((int)pos.x), ((int)pos.y))));
+
+                            if (((float)rng.NextDouble()) < ruinWalls)
+                            {
+                                map.SetCell(new DestructableTile(((int)pos.x), ((int)pos.y), TileType.Rubble, TileType.Empty, createWallHealthSystem(((int)pos.x), ((int)pos.y))));
+                            }
                         }
+            }
+        }
+
+        void CreateOpenings()
+        {
+            foreach (RigidBodyBuilding building in buildings.GetChildren())
+            {
+                if (building.RoomTree is null) continue;
+
+                var nodes = building.RoomTree.GetLowestNodes();
+
+                foreach (var node in nodes)
+                {
+                    if (node.Child1 is null || node.Child2 is null) continue;
+                    var pos1 = map.WorldToMap(building.Position + new Vector2(node.Child1.pos.x, node.Child1.pos.y) * tileSize) - new Vector2(building.offset.x, building.offset.y);
+                    var pos2 = map.WorldToMap(building.Position + new Vector2(node.Child2.pos.x, node.Child2.pos.y) * tileSize) - new Vector2(building.offset.x, building.offset.y);
+
+                    map.SetCell(new Tile(((int)pos1.x), ((int)pos1.y), TileType.Path));
+
+                    // GD.Print(pos1, pos2);
+
+                    // var path = map.PathFinding.FindPath(pos1.ToTuple(), pos2.ToTuple(), (pos) => false, (cell) => map.PathFinding.GetNeigbours(cell), (pos) => 0);
+
+                    // foreach (var cell in path)
+                    // {
+                    //     var tile = map.GetTile(cell.GridPos);
+                    //     if (tile is null) return;
+                    //     if (map.CheckIfTileHasCollision(tile.TileType_Wall))
+                    //     {
+                    //         map.SetCell(new Tile(cell.GridPos.x, cell.GridPos.y, TileType.Path));
+                    //     }
+                    // }
+                }
+
+
             }
         }
 
@@ -213,8 +253,61 @@ public class RLMapGenerator : Node2D
                     enemyPool.AddChild(enemy);
                 }
         }
-        
+
     }
+
+    public async void CreateInsideWalls(Map map, Func<int, int, HealthSystem_Tile> createWallHealthSystem)
+    {
+        foreach (RigidBodyBuilding building in buildings.GetChildren())
+        {
+            if (building.RoomTree is null) continue;
+            var rooms = building.RoomTree.GetLowestNodes();
+
+            // Ściany budynków 
+            foreach (var room in rooms)
+                for (int x = 0; x < room.size.x; x++)
+                    for (int y = 0; y < room.size.y; y++)
+                        if (x == 0 || y == 0)
+                        {
+                            var pos = map.WorldToMap(building.Position + (room.pos.x + x, room.pos.y + y).ToVec2() * tileSize) - new Vector2(building.offset.x, building.offset.y);
+
+                            map.SetCell(new DestructableTile(((int)pos.x), ((int)pos.y), TileType.Rubble, TileType.Wall, createWallHealthSystem(((int)pos.x), ((int)pos.y))));
+                            if (((float)rng.NextDouble()) < ruinWalls)
+                            {
+                                map.SetCell(new DestructableTile(((int)pos.x), ((int)pos.y), TileType.Rubble, TileType.Empty, createWallHealthSystem(((int)pos.x), ((int)pos.y))));
+                            }
+                            await ToSignal(GetTree().CreateTimer(0.001f), "timeout");
+
+                        }
+        }
+    }
+
+    public async void CreateInsideWallsTime(Map map, Func<int, int, HealthSystem_Tile> createWallHealthSystem)
+    {
+        foreach (RigidBodyBuilding building in buildings.GetChildren())
+        {
+            if (building.RoomTree is null) continue;
+            var rooms = building.RoomTree.GetLowestNodes();
+
+            // Ściany budynków 
+            foreach (var room in rooms)
+                for (int x = 0; x < room.size.x; x++)
+                    for (int y = 0; y < room.size.y; y++)
+                        if (x == 0 || y == 0)
+                        {
+                            var pos = map.WorldToMap(building.Position + (room.pos.x + x, room.pos.y + y).ToVec2() * tileSize) - new Vector2(building.offset.x, building.offset.y);
+
+                            if (((float)rng.NextDouble()) > ruinWalls)
+                            {
+                                map.SetCell(new DestructableTile(((int)pos.x), ((int)pos.y), TileType.Rubble, TileType.Wall, createWallHealthSystem(((int)pos.x), ((int)pos.y))));
+                                //map.SetCell(new DestructableTile(((int)pos.x), ((int)pos.y), TileType.Rubble, TileType.Empty, createWallHealthSystem(((int)pos.x), ((int)pos.y))));
+                            }
+                            await ToSignal(GetTree().CreateTimer(0.001f), "timeout");
+
+                        }
+        }
+    }
+
 
     public AStar2D FindMinimumSpanningTree(List<Vector2> roomPositions)
     {
@@ -254,15 +347,15 @@ public class RLMapGenerator : Node2D
     {
         if (mstPath is not null)
         {
-            foreach (int p in mstPath.GetPoints())
-            {
-                foreach (var c in mstPath.GetPointConnections(p))
-                {
-                    var pp = mstPath.GetPointPosition(p);
-                    var cp = mstPath.GetPointPosition(c);
-                    DrawLine(pp, new Vector2(cp[0], cp[1]), new Color(1, 1, 0), 1, true);
-                }
-            }
+            // foreach (int p in mstPath.GetPoints())
+            // {
+            //     foreach (var c in mstPath.GetPointConnections(p))
+            //     {
+            //         var pp = mstPath.GetPointPosition(p);
+            //         var cp = mstPath.GetPointPosition(c);
+            //         DrawLine(pp, new Vector2(cp[0], cp[1]), new Color(1, 1, 0), 1, true);
+            //     }
+            // }
         }
 
         // foreach (RigidBodyBuilding building in buildings.GetChildren())

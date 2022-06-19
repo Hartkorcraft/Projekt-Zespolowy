@@ -3,10 +3,10 @@ using System;
 
 public class ShakeCamera : Camera2D
 {
-    [Export] float decay = 0.8f;
+    [Export] float decay = 0.5f;
     [Export] Vector2 maxOffset = new Vector2(100, 70);
     [Export] float MaxRotation = 0.01f;
-    [Export] float maxShake = 1f;
+    [Export] float maxShake = 0.8f;
 
     float shakeAmount = 0f;
     float shakePower = 2; // exponent between [2 , 3]

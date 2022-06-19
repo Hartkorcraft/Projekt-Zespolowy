@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/32.1 34.2 7.2 6.1 7.1.0001.01.1  5.1 34.2 47. Party Till The End FMN Repost Overdrive Mix.mp3-b8f456fa9f14b0b46c1a8c54ba8500f3.mp3str"
+
+[deps]
+
+source_file="res://Imported/Music/32.1 34.2 7.2 6.1 7.1.0001.01.1  5.1 34.2 47. Party Till The End FMN Repost Overdrive Mix.mp3"
+dest_files=[ "res://.import/32.1 34.2 7.2 6.1 7.1.0001.01.1  5.1 34.2 47. Party Till The End FMN Repost Overdrive Mix.mp3-b8f456fa9f14b0b46c1a8c54ba8500f3.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

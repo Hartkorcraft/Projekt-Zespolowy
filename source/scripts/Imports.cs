@@ -12,6 +12,14 @@ public static class Imports
     public const string BSP_BUILDING_PATH = "res://source/scenes/MapGeneration/BSPBuilding.tscn";
     public const string PLAYER_SCENE = "res://source/scenes/Player.tscn";
     public const string ENEMY_TEST_SCENE = "res://source/scenes/Enemy.tscn";
+    public const string ENEMY_SHOOTER_SCENE = "res://source/scenes/Enemy_Shooter.tscn";
 
+    public const string SPAWNER_SCENE = "res://source/scenes/SpawnPoint.tscn";
+    public const string MELTING_SONG_SCENE = "res://Imported/Music/meting.mp3";
+    public const string MAGE_TEXTURE_PATH = "res://Imported/Enemies/mage.png";
+
+    public const string BULLET_ENEMY_TEX = "res://Imported/Weapons/Projectiles/bigBulletBluet.png";
+    public const string BULLET_PLAYER_TEX = "res://Imported/Weapons/Projectiles/bigBullet.png";
+    public const string ENEMY_SHOOTER_SHOTGUN_SCENE = "res://source/scenes/Enemy_Shooter_Shotgun.tscn";
 
 }

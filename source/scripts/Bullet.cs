@@ -4,13 +4,13 @@ using System;
 public class Bullet : Area2D, IAttack
 {
     public static Map Map = null!;
-    
+
     [Export] float speed = 300f;
     [Export] float maxDistance = 500f;
     [Export] float spread = 0.2f;
 
 
-    public int Damage { get; private set; } = 1;
+    public int Damage { get; private set; } = 10;
     public float AttackRotation => GlobalRotation;
 
     float traveledDistance = 0;
@@ -22,6 +22,16 @@ public class Bullet : Area2D, IAttack
 
     bool moved = false;
     bool active = false;
+    bool playerBullet = true;
+
+    Texture playerBulletTex = null!;
+    Texture enemyBulletTex = null!;
+
+    public override void _EnterTree()
+    {
+        playerBulletTex = (Texture)ResourceLoader.Load(Imports.BULLET_PLAYER_TEX) ?? throw new Exception("Path not found");
+        enemyBulletTex = (Texture)ResourceLoader.Load(Imports.BULLET_ENEMY_TEX) ?? throw new Exception("Path not found");
+    }
 
     public override void _PhysicsProcess(float delta)
     {
@@ -46,15 +56,29 @@ public class Bullet : Area2D, IAttack
             RemoveBullet();
     }
 
-    public void TryToFireBullet(Vector2 dir, Arm arm)
+    public void TryToFireBullet(Vector2 dir, Arm arm, bool playerBullet = true)
     {
+        this.GetChild<Sprite>(0).Texture = playerBullet ? playerBulletTex : enemyBulletTex;
         fireDirection = dir;
         traveledDistance = 0;
         currentSpread = Utils.RandomFloat(-spread, spread);
         moved = false;
         active = true;
+        this.playerBullet = playerBullet;
 
         CheckBarrelBlock(arm);
+    }
+
+    public void TryToFireBullet(Vector2 dir, bool playerBullet = true)
+    {
+        this.GetChild<Sprite>(0).Texture = playerBullet ? playerBulletTex : enemyBulletTex;
+        GD.Print(this.GetChild<Sprite>(0).Texture);
+        fireDirection = dir;
+        traveledDistance = 0;
+        currentSpread = Utils.RandomFloat(-spread, spread);
+        moved = false;
+        active = true;
+        this.playerBullet = playerBullet;
     }
 
     // Aby sprawdzić czy lufa jest zablokowana żeby nie było problemów z kolizjami 
@@ -66,7 +90,7 @@ public class Bullet : Area2D, IAttack
             from: arm.GlobalPosition,
             to: this.GlobalPosition,
             exclude: new Godot.Collections.Array { this },
-            collisionLayer: 0b01111); //TODO do zmiennej 
+            collisionLayer: 0b1111); //TODO do zmiennej 
 
         if (result.Count > 0)
         {
@@ -79,9 +103,8 @@ public class Bullet : Area2D, IAttack
     void _OnCollided(int body_id, Node node, int body_shape, int local_shape)
     {
         if (this.active is false) return;
-
-        //IHealth? hit = null;
-        BulletImpact(node);
+        if ((node is Enemy && playerBullet) || (node is Player && playerBullet is false) || node is TileMap)
+            BulletImpact(node);
     }
 
     void BulletImpact(Node? hit)

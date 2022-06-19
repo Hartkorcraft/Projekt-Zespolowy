@@ -1,0 +1,63 @@
+Date : 2022-05-09 10:22:15
+Directory : d:\DokumentyITD\coding_stuff\PrototypProjektuZespolowego\source\scripts
+Total : 34 files,  1149 codes, 55 comments, 300 blanks, all 1504 lines
+
+Languages
++----------+------------+------------+------------+------------+------------+
+| language | files      | code       | comment    | blank      | total      |
++----------+------------+------------+------------+------------+------------+
+| C#       |         34 |      1,149 |         55 |        300 |      1,504 |
++----------+------------+------------+------------+------------+------------+
+
+Directories
++------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                                                       | files      | code       | comment    | blank      | total      |
++------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                                          |         34 |      1,149 |         55 |        300 |      1,504 |
+| HealthSystem                                                                                               |          5 |        130 |          2 |         30 |        162 |
+| Interfaces                                                                                                 |          3 |         13 |          0 |          3 |         16 |
+| Map                                                                                                        |          4 |        106 |          6 |         29 |        141 |
+| MapGenerator                                                                                               |          3 |        363 |         27 |         87 |        477 |
+| Particles                                                                                                  |          1 |         17 |          1 |          4 |         22 |
++------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++------------------------------------------------------------------------------------------------------------+----------+------------+------------+------------+------------+
+| filename                                                                                                   | language | code       | comment    | blank      | total      |
++------------------------------------------------------------------------------------------------------------+----------+------------+------------+------------+------------+
+| d:\DokumentyITD\coding_stuff\PrototypProjektuZespolowego\source\scripts\Arm.cs                             | C#       |         13 |          1 |          3 |         17 |
+| d:\DokumentyITD\coding_stuff\PrototypProjektuZespolowego\source\scripts\Bullet.cs                          | C#       |         42 |          3 |         13 |         58 |
+| d:\DokumentyITD\coding_stuff\PrototypProjektuZespolowego\source\scripts\BulletPool.cs                      | C#       |          0 |          1 |          0 |          1 |
+| d:\DokumentyITD\coding_stuff\PrototypProjektuZespolowego\source\scripts\Enemy.cs                           | C#       |         23 |          1 |          8 |         32 |
+| d:\DokumentyITD\coding_stuff\PrototypProjektuZespolowego\source\scripts\Entity.cs                          | C#       |          5 |          0 |          2 |          7 |
+| d:\DokumentyITD\coding_stuff\PrototypProjektuZespolowego\source\scripts\HealthSystem\HealtSystem_Entity.cs | C#       |         17 |          0 |          5 |         22 |
+| d:\DokumentyITD\coding_stuff\PrototypProjektuZespolowego\source\scripts\HealthSystem\HealtSystem_Player.cs | C#       |         23 |          0 |          6 |         29 |
+| d:\DokumentyITD\coding_stuff\PrototypProjektuZespolowego\source\scripts\HealthSystem\HealthBar.cs          | C#       |          9 |          0 |          3 |         12 |
+| d:\DokumentyITD\coding_stuff\PrototypProjektuZespolowego\source\scripts\HealthSystem\HealthSystem.cs       | C#       |         62 |          2 |         13 |         77 |
+| d:\DokumentyITD\coding_stuff\PrototypProjektuZespolowego\source\scripts\HealthSystem\HealthSystem_Tile.cs  | C#       |         19 |          0 |          3 |         22 |
+| d:\DokumentyITD\coding_stuff\PrototypProjektuZespolowego\source\scripts\Imports.cs                         | C#       |          8 |          0 |          3 |         11 |
+| d:\DokumentyITD\coding_stuff\PrototypProjektuZespolowego\source\scripts\InputActions.cs                    | C#       |          3 |          0 |          0 |          3 |
+| d:\DokumentyITD\coding_stuff\PrototypProjektuZespolowego\source\scripts\Interfaces\IAttack.cs              | C#       |          5 |          0 |          2 |          7 |
+| d:\DokumentyITD\coding_stuff\PrototypProjektuZespolowego\source\scripts\Interfaces\IHealth.cs              | C#       |          4 |          0 |          1 |          5 |
+| d:\DokumentyITD\coding_stuff\PrototypProjektuZespolowego\source\scripts\Interfaces\IMovement.cs            | C#       |          4 |          0 |          0 |          4 |
+| d:\DokumentyITD\coding_stuff\PrototypProjektuZespolowego\source\scripts\Main.cs                            | C#       |         13 |          1 |          8 |         22 |
+| d:\DokumentyITD\coding_stuff\PrototypProjektuZespolowego\source\scripts\MapGenerator\MapInfo.cs            | C#       |         10 |          0 |          3 |         13 |
+| d:\DokumentyITD\coding_stuff\PrototypProjektuZespolowego\source\scripts\MapGenerator\RLMapGenerator.cs     | C#       |        219 |         15 |         54 |        288 |
+| d:\DokumentyITD\coding_stuff\PrototypProjektuZespolowego\source\scripts\MapGenerator\RigidBodyBuilding.cs  | C#       |        134 |         12 |         30 |        176 |
+| d:\DokumentyITD\coding_stuff\PrototypProjektuZespolowego\source\scripts\Map\Map.cs                         | C#       |         64 |          5 |         21 |         90 |
+| d:\DokumentyITD\coding_stuff\PrototypProjektuZespolowego\source\scripts\Map\Tile.cs                        | C#       |         23 |          0 |          6 |         29 |
+| d:\DokumentyITD\coding_stuff\PrototypProjektuZespolowego\source\scripts\Map\TileType.cs                    | C#       |         13 |          1 |          0 |         14 |
+| d:\DokumentyITD\coding_stuff\PrototypProjektuZespolowego\source\scripts\Map\Tiles.cs                       | C#       |          6 |          0 |          2 |          8 |
+| d:\DokumentyITD\coding_stuff\PrototypProjektuZespolowego\source\scripts\Movement.cs                        | C#       |          6 |          0 |          0 |          6 |
+| d:\DokumentyITD\coding_stuff\PrototypProjektuZespolowego\source\scripts\NpcMind.cs                         | C#       |         73 |          1 |         20 |         94 |
+| d:\DokumentyITD\coding_stuff\PrototypProjektuZespolowego\source\scripts\Particles\HitParticle.cs           | C#       |         17 |          1 |          4 |         22 |
+| d:\DokumentyITD\coding_stuff\PrototypProjektuZespolowego\source\scripts\Pathfinding.cs                     | C#       |        131 |          9 |         34 |        174 |
+| d:\DokumentyITD\coding_stuff\PrototypProjektuZespolowego\source\scripts\Pistol.cs                          | C#       |         12 |          0 |          4 |         16 |
+| d:\DokumentyITD\coding_stuff\PrototypProjektuZespolowego\source\scripts\Player.cs                          | C#       |          1 |          0 |          3 |          4 |
+| d:\DokumentyITD\coding_stuff\PrototypProjektuZespolowego\source\scripts\Prefabs.cs                         | C#       |         12 |          0 |          5 |         17 |
+| d:\DokumentyITD\coding_stuff\PrototypProjektuZespolowego\source\scripts\ScenesPaths.cs                     | C#       |         10 |          2 |          4 |         16 |
+| d:\DokumentyITD\coding_stuff\PrototypProjektuZespolowego\source\scripts\ShakeCamera.cs                     | C#       |          9 |          0 |          3 |         12 |
+| d:\DokumentyITD\coding_stuff\PrototypProjektuZespolowego\source\scripts\Utils.cs                           | C#       |        126 |          0 |         26 |        152 |
+| d:\DokumentyITD\coding_stuff\PrototypProjektuZespolowego\source\scripts\WaveSystem.cs                      | C#       |         33 |          0 |         11 |         44 |
+| Total                                                                                                      |          |      1,149 |         55 |        300 |      1,504 |
++------------------------------------------------------------------------------------------------------------+----------+------------+------------+------------+------------+

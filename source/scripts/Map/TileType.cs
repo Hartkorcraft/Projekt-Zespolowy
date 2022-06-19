@@ -11,4 +11,5 @@ public enum TileType
     Carpet_Green = 7,
     Carpet_Blue = 8,
     Carpet_Orange = 9,
+    Trash = 10
 }

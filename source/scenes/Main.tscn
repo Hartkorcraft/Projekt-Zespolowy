@@ -1,18 +1,41 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://source/tileset.tres" type="TileSet" id=1]
-[ext_resource path="res://Imported/Music/3.2 Crystalized Dreams ((work in progress)).mp3" type="AudioStream" id=2]
+[ext_resource path="res://Imported/Music/35.1 39. The only way out.mp3" type="AudioStream" id=2]
 [ext_resource path="res://source/scenes/MapGeneration/MapGenerator.tscn" type="PackedScene" id=3]
 [ext_resource path="res://source/scripts/Map/Map.cs" type="Script" id=4]
+[ext_resource path="res://source/scripts/WaveSystem.cs" type="Script" id=5]
 [ext_resource path="res://source/scripts/Main.cs" type="Script" id=6]
 [ext_resource path="res://source/scripts/map/Tiles.cs" type="Script" id=7]
 [ext_resource path="res://source/scripts/Prefabs.cs" type="Script" id=8]
+[ext_resource path="res://source/scenes/HealthBarNode.tscn" type="PackedScene" id=9]
+[ext_resource path="res://source/scripts/HealthSystem/HealthBar.cs" type="Script" id=10]
+[ext_resource path="res://Imported/leaf.png" type="Texture" id=11]
+[ext_resource path="res://source/scripts/Leafs.cs" type="Script" id=12]
+[ext_resource path="res://source/scripts/MusicPlayer.cs" type="Script" id=13]
+[ext_resource path="res://Imported/Music/melting.mp3" type="AudioStream" id=14]
 
 [sub_resource type="CircleShape2D" id=1]
-radius = 84.4171
+radius = 15.0748
 
-[sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 726.102, 14.2085 )
+[sub_resource type="ParticlesMaterial" id=2]
+emission_shape = 2
+emission_box_extents = Vector3( 1, 300, 1 )
+flag_disable_z = true
+gravity = Vector3( -98, 10, 0 )
+initial_velocity = 30.0
+initial_velocity_random = 0.16
+angular_velocity = 537.59
+angular_velocity_random = 0.66
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+radial_accel_random = 0.77
+angle = -9.0
+angle_random = 1.0
+scale_random = 1.0
+color = Color( 0.0862745, 0.952941, 0, 1 )
+hue_variation = 1.0
+hue_variation_random = 0.68
 
 [node name="Main" type="Node"]
 script = ExtResource( 6 )
@@ -27,12 +50,14 @@ script = ExtResource( 4 )
 
 [node name="MapGenerator" parent="Map" instance=ExtResource( 3 )]
 process_priority = -1
-num_rooms = 4
+num_rooms = 5
 minSize = 12
-horizontalSpreed = 80.0
-verticalSpread = 20.0
+horizontalSpreed = 60.0
+verticalSpread = 40.0
 deleteProcent = 0.0
 solverBias = 0.1
+ruinWalls = 0.3
+dirtPatch = 0.1
 
 [node name="StaticBody2D" type="StaticBody2D" parent="Map/MapGenerator"]
 collision_layer = 262144
@@ -40,9 +65,6 @@ collision_mask = 262144
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Map/MapGenerator/StaticBody2D"]
 shape = SubResource( 1 )
-
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="Map/MapGenerator/StaticBody2D"]
-shape = SubResource( 2 )
 
 [node name="Tiles_Floor" type="TileMap" parent="Map"]
 z_index = -5
@@ -68,3 +90,48 @@ script = ExtResource( 7 )
 [node name="Music" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 2 )
 volume_db = -6.0
+script = ExtResource( 13 )
+
+[node name="Music2" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 14 )
+script = ExtResource( 13 )
+
+[node name="WaveSystem" type="Node2D" parent="."]
+script = ExtResource( 5 )
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="HealthBar" parent="CanvasLayer" instance=ExtResource( 9 )]
+visible = false
+margin_left = -3.0
+margin_top = 159.0
+margin_right = 77.0
+margin_bottom = 179.0
+script = ExtResource( 10 )
+
+[node name="Node2D" type="Node2D" parent="."]
+position = Vector2( 800, 0 )
+
+[node name="Particles2D" type="Particles2D" parent="Node2D"]
+amount = 700
+lifetime = 6.0
+preprocess = 20.0
+speed_scale = 0.8
+visibility_rect = Rect2( -1500, -1500, 4000, 4000 )
+draw_order = 1
+process_material = SubResource( 2 )
+texture = ExtResource( 11 )
+script = ExtResource( 12 )
+
+[node name="CanvasLayer2" type="CanvasLayer" parent="."]
+
+[node name="Label" type="Label" parent="CanvasLayer2"]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -40.0
+margin_bottom = 14.0
+text = "kills
+"
+__meta__ = {
+"_edit_use_anchors_": false
+}

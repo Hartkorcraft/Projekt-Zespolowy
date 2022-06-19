@@ -13,7 +13,7 @@ public abstract class Entity : KinematicBody2D, IMovement, IHealthSystem
     {
         Sprite = GetNode<Sprite>("Sprite") ?? throw new Exception("Sprite is null");
         var bloodParticleScene = (PackedScene)ResourceLoader.Load(Imports.BLOOD_PARTICLE_DEATH_PATH);
-        HealthSystem = new HealtSystem_Entity(5, 5, () => GlobalPosition, this, bloodParticleScene);
+        HealthSystem = new HealtSystem_Entity(50, 50, () => GlobalPosition, this, bloodParticleScene);
     }
 
 }

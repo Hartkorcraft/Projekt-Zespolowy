@@ -98,8 +98,8 @@ public class RigidBodyBuilding : RigidBody2D
         public bool CanBeDivided = true;
         public Color Color;
 
-        BSPNode? Child1 = null;
-        BSPNode? Child2 = null;
+        public BSPNode? Child1 { get; private set; } = null;
+        public BSPNode? Child2 { get; private set; } = null;
 
         // Dzielenie gałęzi drzewa na pół
         public bool Divide((int x, int y) minSize)
@@ -140,6 +140,14 @@ public class RigidBodyBuilding : RigidBody2D
 
             CanBeDivided = false;
             return true;
+        }
+
+        public List<BSPNode> GetChildren()
+        {
+            var list = new List<BSPNode>();
+            if (Child1 is not null) list.Add(Child1);
+            if (Child2 is not null) list.Add(Child2);
+            return list;
         }
 
         // Zwraca całe drzewo

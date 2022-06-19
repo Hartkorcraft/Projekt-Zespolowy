@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/1.2 . Wake-up.mp3-2141ac8b6e9a3eedc12f3e5ac5e85d28.mp3str"
+
+[deps]
+
+source_file="res://Imported/Music/1.2 . Wake-up.mp3"
+dest_files=[ "res://.import/1.2 . Wake-up.mp3-2141ac8b6e9a3eedc12f3e5ac5e85d28.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

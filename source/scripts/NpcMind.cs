@@ -5,14 +5,14 @@ using Godot;
 
 public class NpcMind
 {
-    float viewRange = 1000;
+    float viewRange = 2000;
 
     Map map;
     public List<PathCell> Path = new List<PathCell>();
 
     Vector2? playerLastSeenPos = null;
 
-    public void Update(Entity npc, Player player, Movement npcMovement, float delta)
+    public virtual void Update(Entity npc, Player player, float delta)
     {
 
     }
@@ -20,9 +20,9 @@ public class NpcMind
     public Vector2 GetMovementDir(Entity npc, Player player)
         => GetDirToPlayer(npc, player);
 
-    Vector2 GetDirToPlayer(Entity npc, Player player)
+
+    public bool SeePlayer(Entity npc, Player player)
     {
-        //raycast aby sprawdzić czy widzi
         var spaceState = npc.GetWorld2d().DirectSpaceState;
         var result = spaceState.IntersectRay(
             from: npc.GlobalPosition,
@@ -38,12 +38,30 @@ public class NpcMind
             if (hit is Player && distanceToPlayer <= viewRange)
             {
                 playerLastSeenPos = player.GlobalPosition;
-
-                var dir = player.GlobalPosition - npc.GlobalPosition;
-                dir.Normalized();
-                return dir;
+                return true;
             }
         }
+        return false;
+    }
+
+    Vector2 GetDirToPlayer(Entity npc, Player player)
+    {
+
+        //raycast aby sprawdzić czy widzi
+        var spaceState = npc.GetWorld2d().DirectSpaceState;
+        var result = spaceState.IntersectRay(
+            from: npc.GlobalPosition,
+            to: player.GlobalPosition,
+            exclude: new Godot.Collections.Array { npc },
+            collisionLayer: 0b11);
+      
+        if (SeePlayer(npc, player))
+        {
+            var dir = player.GlobalPosition - npc.GlobalPosition;
+            dir.Normalized();
+            return dir;
+        }
+
         if (playerLastSeenPos is null) return Vector2.Zero;
 
         Path = FindPath(npc.GlobalPosition, playerLastSeenPos.Value);
@@ -55,7 +73,7 @@ public class NpcMind
             return pathDir;
         }
 
-        return Vector2.Zero;
+        return playerLastSeenPos.Value - npc.GlobalPosition;
     }
 
     List<PathCell> FindPath(Vector2 npcPos, Vector2 destinationPos)
@@ -86,8 +104,9 @@ public class NpcMind
         return blocking;
     }
 
-    public NpcMind(Map map)
+    public NpcMind(Map map, Vector2 playerStartPos)
     {
         this.map = map;
+        playerLastSeenPos = playerStartPos;
     }
 }

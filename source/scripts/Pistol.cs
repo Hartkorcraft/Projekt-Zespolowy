@@ -9,7 +9,7 @@ public class Pistol : Sprite, IHandAble
     PackedScene bulletScene = null!;
     BulletPool bulletPool = null!;
 
-    int bulletBurstAmmount = 200;
+    int bulletBurstAmmount = 99999;
     int bulletsShootInBurst = 0;
 
     public override void _EnterTree()
