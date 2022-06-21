@@ -5,7 +5,7 @@
 
 [node name="BloodParticleDeath" type="CPUParticles2D"]
 z_index = -1
-amount = 32
+amount = 10
 lifetime = 0.25
 speed_scale = 0.8
 explosiveness = 1.0

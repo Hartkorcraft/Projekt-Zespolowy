@@ -22,6 +22,8 @@ public class RLMapGenerator : Node2D
     [Export] float deleteProcent = 0.3f; // Szansa na usunięcie budynków
     [Export] float solverBias = 1.5f; // Bias odpychania
     [Export] float ruinWalls = 0.7f;
+    [Export] float ruinWallsTime = 0.6f;
+
     [Export] float dirtPatch = 0.001f;
     [Export] float trashAmmount = 0.01f;
     AStar2D? mstPath = null;
@@ -256,7 +258,7 @@ public class RLMapGenerator : Node2D
 
     }
 
-    public async void CreateInsideWalls(Map map, Func<int, int, HealthSystem_Tile> createWallHealthSystem)
+    public void CreateInsideWalls(Map map, Func<int, int, HealthSystem_Tile> createWallHealthSystem)
     {
         foreach (RigidBodyBuilding building in buildings.GetChildren())
         {
@@ -276,7 +278,7 @@ public class RLMapGenerator : Node2D
                             {
                                 map.SetCell(new DestructableTile(((int)pos.x), ((int)pos.y), TileType.Rubble, TileType.Empty, createWallHealthSystem(((int)pos.x), ((int)pos.y))));
                             }
-                            await ToSignal(GetTree().CreateTimer(0.001f), "timeout");
+                            // await ToSignal(GetTree().CreateTimer(0.001f), "timeout");
 
                         }
         }
@@ -297,7 +299,7 @@ public class RLMapGenerator : Node2D
                         {
                             var pos = map.WorldToMap(building.Position + (room.pos.x + x, room.pos.y + y).ToVec2() * tileSize) - new Vector2(building.offset.x, building.offset.y);
 
-                            if (((float)rng.NextDouble()) > ruinWalls)
+                            if (((float)rng.NextDouble()) > ruinWallsTime && map.GetTile((x, y))?.TileType_Wall == TileType.Empty)
                             {
                                 map.SetCell(new DestructableTile(((int)pos.x), ((int)pos.y), TileType.Rubble, TileType.Wall, createWallHealthSystem(((int)pos.x), ((int)pos.y))));
                                 //map.SetCell(new DestructableTile(((int)pos.x), ((int)pos.y), TileType.Rubble, TileType.Empty, createWallHealthSystem(((int)pos.x), ((int)pos.y))));
