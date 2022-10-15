@@ -15,6 +15,10 @@ public class HealtSystem_Player : HealthSystem
         healthBar.UpdateHealthBar(healthPercent);
     }
 
+    public override void OnHeal()
+    {
+        HealthBar.UpdateHealthBar(healthPercent);
+    }
     public override void OnHit(IAttack attack)
     {
         //base.OnHit(attack);

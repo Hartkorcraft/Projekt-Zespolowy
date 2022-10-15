@@ -63,7 +63,7 @@ public class Player : Entity, IMovement
     private void BulletTime(bool usedItem = false)
     {
         if (Movement.Motion == Vector2.Zero && usedItem is false) Engine.TimeScale = bulletTimeSpeed;
-        else Engine.TimeScale = Mathf.Min(Engine.TimeScale + bulletTimeDecay, 1.0f);
+        else Engine.TimeScale = Mathf.Min(Engine.TimeScale + bulletTimeDecay, 0.9f);
         curMusicPlayer.PitchScale = Mathf.Max(Engine.TimeScale, 0.7f);
     }
 

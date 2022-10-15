@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 
 // Pula pocisków aby nie tworzyć masowo nowych obiektów
-//TODO tymczasowo autoload przydałoby się zmienić to 
 public class BulletPool : Node2D
 {
     int poolSize = 500;
@@ -32,3 +31,5 @@ public class BulletPool : Node2D
         => bulletPool.Enqueue(bullet);
 
 }
+
+

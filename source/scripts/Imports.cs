@@ -21,5 +21,5 @@ public static class Imports
     public const string BULLET_ENEMY_TEX = "res://Imported/Weapons/Projectiles/bigBulletBluet.png";
     public const string BULLET_PLAYER_TEX = "res://Imported/Weapons/Projectiles/bigBullet.png";
     public const string ENEMY_SHOOTER_SHOTGUN_SCENE = "res://source/scenes/Enemy_Shooter_Shotgun.tscn";
-
+    public const string HEALTH_PACK = "res://source/scenes/HealthPack.tscn";
 }

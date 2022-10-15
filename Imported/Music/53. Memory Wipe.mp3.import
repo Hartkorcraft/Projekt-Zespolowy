@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/53. Memory Wipe.mp3-7ab6e449cc361c6f4ccf2b217de241b8.mp3str"
+
+[deps]
+
+source_file="res://Imported/Music/53. Memory Wipe.mp3"
+dest_files=[ "res://.import/53. Memory Wipe.mp3-7ab6e449cc361c6f4ccf2b217de241b8.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

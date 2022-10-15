@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\DokumentyITD\\coding_stuff\\PrototypProjektuZespolowego\\ProjektZespolowy.csproj",
+      "projectUniqueName": "d:\\DokumentyITD\\coding_stuff\\PrototypProjektuZespolowego\\ProjektZespolowy.csproj",
       "projectName": "ProjektZespolowy",
-      "projectPath": "D:\\DokumentyITD\\coding_stuff\\PrototypProjektuZespolowego\\ProjektZespolowy.csproj",
+      "projectPath": "d:\\DokumentyITD\\coding_stuff\\PrototypProjektuZespolowego\\ProjektZespolowy.csproj",
       "packagesPath": "C:\\Users\\Hartkorcraft\\.nuget\\packages\\",
-      "outputPath": "D:\\DokumentyITD\\coding_stuff\\PrototypProjektuZespolowego\\.mono\\temp\\obj\\",
+      "outputPath": "d:\\DokumentyITD\\coding_stuff\\PrototypProjektuZespolowego\\.mono\\temp\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Hartkorcraft\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -46,7 +46,7 @@
     "frameworks": {
       "net472": {
         "targetAlias": "net472",
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.101\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.400\\RuntimeIdentifierGraph.json"
       }
     }
   }

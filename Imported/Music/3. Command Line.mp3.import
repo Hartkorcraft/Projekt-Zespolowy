@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/3. Command Line.mp3-bccd8f2ce548fae47e9be14cfb4bb644.mp3str"
+
+[deps]
+
+source_file="res://Imported/Music/3. Command Line.mp3"
+dest_files=[ "res://.import/3. Command Line.mp3-bccd8f2ce548fae47e9be14cfb4bb644.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

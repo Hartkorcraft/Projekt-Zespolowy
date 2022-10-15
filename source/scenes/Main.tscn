@@ -1,7 +1,7 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://source/tileset.tres" type="TileSet" id=1]
-[ext_resource path="res://Imported/Music/35. Day Dream of Hopeless Despair.mp3" type="AudioStream" id=2]
+[ext_resource path="res://Imported/Music/3. Command Line.mp3" type="AudioStream" id=2]
 [ext_resource path="res://source/scenes/MapGeneration/MapGenerator.tscn" type="PackedScene" id=3]
 [ext_resource path="res://source/scripts/Map/Map.cs" type="Script" id=4]
 [ext_resource path="res://source/scripts/WaveSystem.cs" type="Script" id=5]
@@ -14,13 +14,15 @@
 [ext_resource path="res://source/scripts/Leafs.cs" type="Script" id=12]
 [ext_resource path="res://source/scripts/MusicPlayer.cs" type="Script" id=13]
 [ext_resource path="res://Imported/Music/melting.mp3" type="AudioStream" id=14]
+[ext_resource path="res://Imported/m3x6.ttf" type="DynamicFontData" id=15]
+[ext_resource path="res://source/scripts/KillsLabel.cs" type="Script" id=16]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 15.0748
 
 [sub_resource type="ParticlesMaterial" id=2]
 emission_shape = 2
-emission_box_extents = Vector3( 1, 300, 1 )
+emission_box_extents = Vector3( 1, 600, 1 )
 flag_disable_z = true
 gravity = Vector3( -98, 10, 0 )
 initial_velocity = 30.0
@@ -36,6 +38,11 @@ scale_random = 1.0
 color = Color( 0.0862745, 0.952941, 0, 1 )
 hue_variation = 1.0
 hue_variation_random = 0.68
+
+[sub_resource type="DynamicFont" id=3]
+size = 48
+extra_spacing_top = -10
+font_data = ExtResource( 15 )
 
 [node name="Main" type="Node"]
 script = ExtResource( 6 )
@@ -90,7 +97,7 @@ script = ExtResource( 7 )
 
 [node name="Music" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 2 )
-volume_db = -6.0
+volume_db = -2.0
 script = ExtResource( 13 )
 
 [node name="Music2" type="AudioStreamPlayer" parent="."]
@@ -114,11 +121,12 @@ script = ExtResource( 10 )
 position = Vector2( 800, 0 )
 
 [node name="Particles2D" type="Particles2D" parent="Node2D"]
-amount = 700
-lifetime = 6.0
+position = Vector2( 500, 0 )
+amount = 1000
+lifetime = 8.0
 preprocess = 20.0
 speed_scale = 0.8
-visibility_rect = Rect2( -1500, -1500, 4000, 4000 )
+visibility_rect = Rect2( -2000, -1500, 4000, 4000 )
 draw_order = 1
 process_material = SubResource( 2 )
 texture = ExtResource( 11 )
@@ -127,12 +135,12 @@ script = ExtResource( 12 )
 [node name="CanvasLayer2" type="CanvasLayer" parent="."]
 
 [node name="Label" type="Label" parent="CanvasLayer2"]
-anchor_left = 1.0
-anchor_right = 1.0
-margin_left = -40.0
-margin_bottom = 14.0
-text = "kills
-"
+margin_left = 43.5
+margin_right = 83.5
+margin_bottom = 31.0
+custom_fonts/font = SubResource( 3 )
+text = "kills:"
+script = ExtResource( 16 )
 __meta__ = {
 "_edit_use_anchors_": false
 }

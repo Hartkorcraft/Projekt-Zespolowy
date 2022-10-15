@@ -1,0 +1,82 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://Imported/m3x6.ttf" type="DynamicFontData" id=1]
+[ext_resource path="res://Imported/mapka.png" type="Texture" id=2]
+[ext_resource path="res://Imported/Music/vortex.mp3" type="AudioStream" id=3]
+[ext_resource path="res://source/scripts/Menu.cs" type="Script" id=4]
+
+[sub_resource type="DynamicFont" id=1]
+size = 48
+font_data = ExtResource( 1 )
+
+[node name="Menu" type="Control"]
+script = ExtResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ColorRect2" type="ColorRect" parent="."]
+margin_left = -1400.0
+margin_top = -1064.0
+margin_right = 3075.0
+margin_bottom = 2074.0
+color = Color( 0, 0, 0, 1 )
+
+[node name="ColorRect" type="ColorRect" parent="."]
+margin_left = -6.00006
+margin_top = -2.0
+margin_right = 1042.0
+margin_bottom = 609.0
+color = Color( 0, 0, 0, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="mapka" type="Sprite" parent="ColorRect"]
+position = Vector2( 520.94, 279.993 )
+scale = Vector2( 0.109643, 0.109643 )
+texture = ExtResource( 2 )
+
+[node name="Start" type="Button" parent="ColorRect"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -46.0
+margin_top = -106.339
+margin_right = 46.0
+margin_bottom = -62.3394
+rect_pivot_offset = Vector2( -15.0046, 18 )
+custom_fonts/font = SubResource( 1 )
+text = "Start"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Exit" type="Button" parent="ColorRect"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -46.0
+margin_top = -57.4186
+margin_right = 46.0
+margin_bottom = -21.4186
+rect_pivot_offset = Vector2( -15.0046, 18 )
+custom_fonts/font = SubResource( 1 )
+text = "Exit"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 3 )
+volume_db = -6.0
+autoplay = true
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2( 516.721, 304.687 )
+current = true
+
+[connection signal="pressed" from="ColorRect/Start" to="." method="OnPlayButton"]
+[connection signal="pressed" from="ColorRect/Exit" to="." method="OnExitButton"]

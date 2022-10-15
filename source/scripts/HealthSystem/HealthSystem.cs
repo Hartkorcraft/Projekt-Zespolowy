@@ -20,6 +20,16 @@ public abstract class HealthSystem
         return false;
     }
 
+    public void Heal(int ammount)
+    {
+        Health += ammount;
+        if (Health > MaxHealth) Health = MaxHealth;
+        OnHeal();
+    }
+    public virtual void OnHeal()
+    {
+
+    }
     public virtual void OnHit(IAttack attack)
     {
         SpawnParticlesOnHit(attack);
@@ -28,6 +38,7 @@ public abstract class HealthSystem
     bool Die(IAttack attack)
     {
         if (dead) return true;
+        dead = true;
         OnDeath(attack);
         return true;
     }

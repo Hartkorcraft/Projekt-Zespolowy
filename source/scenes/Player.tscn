@@ -97,11 +97,12 @@ anims/Walking = SubResource( 2 )
 
 [node name="StepSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 5 )
+volume_db = -10.0
 pitch_scale = 0.823859
 
 [node name="Camera2D" type="Camera2D" parent="."]
 current = true
-zoom = Vector2( 0.3, 0.3 )
+zoom = Vector2( 0.5, 0.5 )
 script = ExtResource( 7 )
 decay = 2.0
 maxOffset = Vector2( 2, 3 )
